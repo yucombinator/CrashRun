@@ -1,0 +1,22 @@
+<resources>
+
+	<string name="app_name">CrashCourse</string> <!-- roadstop? -->
+	<string name="hello_world">Hello world!</string>
+	<string name="menu_settings">Settings</string>
+	<string name="add_new">Submit new location</string>
+	<string name="credits">Credits</string>
+	<string name="icon">Icon</string>
+	<string name="map_type">Map Type</string>
+	<string name="satellite">Satellite</string>
+	<string name="hybrid">Hybrid</string>
+	<string name="Map">Map</string>
+	<string name="terrain">Terrain</string>
+	<string name="quit">Quit Game</string>
+	<string name="pause">Pause Game</string>
+	<string name="help">Help</string>
+	<string name="help1">How to play the game</string>
+	<string name="share">Share Score</string>
+	<string name="help_text">Run towards the heart orbs to collect them and increase your time limit. \nCollect 9 out of 10 orbs to advance to the next round. \nTry to get through the most rounds and share the results with your friends! \n \nRemember, don\'t get hit by a car or be stupid.</string>
+	<string name="demobtn">Demo mode toggle</string>
+
+</resources>

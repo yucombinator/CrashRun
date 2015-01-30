@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    
+    <item android:id="@+id/menu_quit"
+        android:title="@string/quit"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    
+    
+    <item android:id="@+id/credits" android:showAsAction="never" android:title="@string/credits"></item>
+<item
+    android:id="@+id/more"
+    android:icon="@drawable/ic_menu_mapmode"
+    android:showAsAction="always|withText"
+    android:title="@string/map_type">
+    <menu>
+        <item
+    android:id="@+id/satellite"
+    android:showAsAction="ifRoom|withText"
+    android:title="@string/satellite"/>
+        <item
+    android:id="@+id/hybrid"
+    android:showAsAction="ifRoom|withText"
+    android:title="@string/hybrid"/>
+	<item
+	    android:id="@+id/map_only"
+	    android:showAsAction="ifRoom|withText"
+	    android:title="@string/Map"/>
+	<item
+    android:id="@+id/terrain"
+    android:showAsAction="ifRoom|withText"
+    android:title="@string/terrain"/>
+        </menu> 
+        </item><item android:id="@+id/add_new" android:title="@string/add_new" android:icon="@drawable/ic_menu_revert" android:showAsAction="always" android:visible="true"></item>
+        <item android:id="@+id/pauseBtn" android:title="@string/pause" android:icon="@drawable/ic_media_pause" android:showAsAction="always"></item>
+        <item android:id="@+id/help" android:icon="@drawable/ic_menu_help" android:title="@string/help" android:showAsAction="ifRoom"></item>
+        <item android:id="@+id/share" android:icon="@drawable/ic_menu_share" android:title="@string/share" android:showAsAction="always"></item>
+        <item android:id="@+id/demo_mode" android:title="@string/demobtn"></item>
+</menu>

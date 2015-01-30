@@ -1,0 +1,53 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .apt_generated\
+* .apt_generated\com\
+* .apt_generated\com\gamejam\
+* .apt_generated\com\gamejam\crashrun\
+* .apt_generated\com\gamejam\crashrun\ItemsListFragment_.java
+* .apt_generated\com\gamejam\crashrun\MainActivity_.java
+* .apt_generated\com\gamejam\crashrun\SplashFragment_.java
+* .apt_generated\com\gamejam\crashrun\ViewMapFragment_.java
+* .apt_generated\com\gamejam\crashrun\rest\
+* .apt_generated\com\gamejam\crashrun\rest\RestClient_.java
+* .factorypath
+* ext-libs\
+* ext-libs\androidannotations-2.6.jar
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* libs\acra-4.3.0.jar => app\libs\acra-4.3.0.jar
+* libs\androidannotations-2.6-api.jar => app\libs\androidannotations-2.6-api.jar
+* libs\google-play-services.jar => app\libs\google-play-services.jar
+* libs\nineoldandroids-2.4.0.jar => app\libs\nineoldandroids-2.4.0.jar
+* libs\spring-android-core-1.0.0.RELEASE.jar => app\libs\spring-android-core-1.0.0.RELEASE.jar
+* libs\spring-android-rest-template-1.0.0.RELEASE.jar => app\libs\spring-android-rest-template-1.0.0.RELEASE.jar
+* lint.xml => app\lint.xml
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
