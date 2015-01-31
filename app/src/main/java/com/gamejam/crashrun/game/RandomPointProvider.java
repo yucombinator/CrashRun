@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 public class RandomPointProvider
 {
@@ -28,7 +29,7 @@ public class RandomPointProvider
     //decrease time avaliable simutaneously
     //generate orbs x distance away from each other
 	
-	public RandomPointProvider(LatLng location, Range range, Context c)
+	public RandomPointProvider(LatLng location, Range range, Context c, Game game)
 	{
 		user = location;
 		
@@ -36,17 +37,21 @@ public class RandomPointProvider
 		{
             //add 1 per round until max
 			maxRange = 0.002;
+            maxRange += (game.levelAdd(0)*1.0)/1000;
 		}
 		else if(range == RandomPointProvider.Range.MEDIUM)
 		{
             //add 1 per round until max
 			maxRange = 0.003;
+            maxRange += (game.levelAdd(0)*1.0)/1000;
 		}
 		else if(range == RandomPointProvider.Range.LONG)
 		{
             //add 1 per round until max
 			maxRange = 0.004;
-		}	
+            maxRange += (game.levelAdd(0)*1.0)/1000;
+		}
+        Log.d("game max range", String.valueOf(maxRange));
 		gc  = new Geocoder(c);
 	}
 

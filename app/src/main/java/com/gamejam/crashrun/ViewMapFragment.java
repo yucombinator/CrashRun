@@ -287,7 +287,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	@Background
 	public void generatePoint(LatLng location){
 		orbs.clear();
-		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext());
+		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext(),game);
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
 		for(int i = 0; i < 10; i++)
