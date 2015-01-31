@@ -34,8 +34,8 @@ public class RandomPointProvider
     {
         user = location;
         toAdd = (game.levelAdd(0)*1.0)/10000;
-        if (toAdd >= 0.004) {
-            toAdd = 0.004;
+        if (toAdd >= 0.008) {
+            toAdd = 0.008;
         }
         if (range == RandomPointProvider.Range.SHORT)
         {
