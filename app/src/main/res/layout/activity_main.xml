@@ -131,6 +131,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp" />
 
+    <LinearLayout
+        android:id="@+id/shade"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/semi_black"></LinearLayout>
 
 
 </RelativeLayout>
