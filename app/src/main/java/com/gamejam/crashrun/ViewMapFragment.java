@@ -284,21 +284,29 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	}
 	@Background
 	public void generatePoint(LatLng location){
+        int addMoreOrbs;
 		orbs.clear();
 		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext(),game);
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
-		for(int i = 0; i < 10; i++)
-		{
-			LatLng point = mRPP.getRandomPoint();
-			if(point != null){
-			orbs.add(point);
-			addMarker(orbs.get((orbs.size()-1)),0);
-			}else{
-			Log.d(TAG, "Error generating points");
-			}
-		}
-	}
+        addMoreOrbs = ((game.levelAdd(0)-1)/2);
+        Log.d("game add more orbs", String.valueOf(5+ addMoreOrbs));
+        if (addMoreOrbs > 10) {
+            addMoreOrbs =10;
+        }
+        for(int i = 0; i < (5 + addMoreOrbs); i++)
+        {
+            LatLng point = mRPP.getRandomPoint();
+            if(point != null){
+                orbs.add(point);
+                addMarker(orbs.get((orbs.size()-1)),0);
+            }else{
+                Log.d(TAG, "Error generating points");
+            }
+        }
+
+
+    }
 	
 	@UiThread //later: make apparent boundary bigger than real boundary
 	public void addPoly(RandomPointProvider mRPP){
