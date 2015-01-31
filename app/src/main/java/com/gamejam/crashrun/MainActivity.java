@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.gamejam.crashrun.ViewMapFragment.onCameraListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -102,34 +103,6 @@ public class MainActivity
       }else if(item.getItemId() == R.id.menu_quit){
         	finish();
         	
-      }else if(item.getItemId() == R.id.pauseBtn){
-      	if(paused == true)
-      	{
-      		cdt = null;
-     		Countdown();
-          	MenuItem arrowtoggle = _abs_menu.findItem(R.id.pauseBtn);
-          	arrowtoggle.setIcon(getResources().getDrawable(R.drawable.ic_media_pause));
-          	paused  = false;
-          	
-            roundText = (TextView) LL.findViewById(R.id.textRounds);
-            
-    		roundText.setText("Round " + rounds);
-    		
-          	ViewMapFragment mMapFragment = (ViewMapFragment) getSupportFragmentManager().findFragmentByTag("map");
-          	mMapFragment.checkForNearbyItems();
-    		
-      	} else {
-     		cdt.cancel();
-          	MenuItem arrowtoggle = _abs_menu.findItem(R.id.pauseBtn);
-          	arrowtoggle.setIcon(getResources().getDrawable(R.drawable.ic_media_play));
-          	paused = true;
-          	
-            roundText = (TextView) LL.findViewById(R.id.textRounds);
-            
-    		roundText.setText("Game Paused");
-
-      	}
-      	
       }else if(item.getItemId() == R.id.help){
           showSimplePopUp(this.getString(R.string.help1), this.getString(R.string.help_text));
       }else if(item.getItemId() == R.id.share){
@@ -149,18 +122,38 @@ public class MainActivity
     		  DEMO = false;
     	  }
 
-      }else if(item.getItemId() == R.id.add_new){
-        	ViewMapFragment mMapFragment = (ViewMapFragment) getSupportFragmentManager().findFragmentByTag("map");
-      		mMapFragment.newRound();
-      		
-    		rounds = 1;
-    		roundText.setText("Round " + rounds);
-   		
       }
       
 
     
       return super.onOptionsItemSelected(item);
+    }
+    public void gameToggle(View v){
+        if(paused == true)
+        {
+            cdt = null;
+            Countdown();
+            paused  = false;
+
+            roundText = (TextView) LL.findViewById(R.id.textRounds);
+
+            roundText.setText("Round " + rounds);
+
+            ViewMapFragment mMapFragment = (ViewMapFragment) getSupportFragmentManager().findFragmentByTag("map");
+            mMapFragment.checkForNearbyItems();
+            ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_pause));
+
+
+        } else {
+            cdt.cancel();
+            paused = true;
+
+            roundText = (TextView) LL.findViewById(R.id.textRounds);
+
+            roundText.setText("Game Paused");
+
+            ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
+        }
     }
     public void showSimplePopUp(String title, String text) {
 

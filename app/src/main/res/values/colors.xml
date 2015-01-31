@@ -4,4 +4,10 @@
         <drawable name="ab_bg_black">#aa000000</drawable>
         <drawable name="semi_white">#60ffffff</drawable>
         <drawable name="semi_black">#90696969</drawable>
+        <color name="primary">#03A9F4</color>
+        <color name="primary_dark">#0288D1</color>
+        <color name="light">#B3E5FC</color>
+        <color name="text">#FFFFFF</color>
+        <color name="accent">#CDDC39</color>
+        <color name="accent_dark">#ffa7b62f</color>
 </resources>
