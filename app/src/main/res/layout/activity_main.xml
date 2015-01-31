@@ -78,6 +78,7 @@
                     android:id="@+id/btn_achievements"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="achievements"
                     fancy:borderColor="#727272"
                     fancy:borderWidth="1dp"
                     fancy:defaultColor="#FFFFFF"

@@ -1,6 +1,8 @@
 package com.icechen1.crashcourse;
 
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.mariux.teleport.lib.TeleportService;
 
@@ -23,9 +25,8 @@ public class WearService extends TeleportService {
 
         @Override
         protected void onPostExecute(String path) {
-
             if (path.equals(STARTACTIVITY)) {
-
+                Log.e("CrashCourse", "GOT STARTACTIVITY");
                 Intent startIntent = new Intent(getBaseContext(), MainActivity.class);
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startIntent);

@@ -16,36 +16,19 @@ import java.util.UUID;
  * Created by YuChen on 2015-01-30.
  */
 public class WatchSync {
-    private final static UUID PEBBLE_APP_UUID = UUID.fromString("EC7EE5C6-8DDF-4089-AA84-C3396A11CC95");
+    private final static UUID PEBBLE_APP_UUID = UUID.fromString("5f54ae56-7776-4333-8f69-a44d9d2ee55a");
     private  boolean pebble_connected = false;
     private  TeleportClient mTeleportClient;
     Context c;
     private boolean wear_connected = false;
     private static WatchSync mInstance;
+    private BroadcastReceiver connectedReceiver;
+    private BroadcastReceiver disconnectedReceiver;
 
     public WatchSync(final Context c){
         //save the contest
         this.c = c;
         mInstance = this;
-        //Check if pebble is active
-        pebble_connected = PebbleKit.isWatchConnected(c);
-        PebbleKit.registerPebbleConnectedReceiver(c, new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.i("CrashCourse", "Pebble connected!");
-                // Launching my app
-                PebbleKit.startAppOnPebble(c, PEBBLE_APP_UUID);
-                // Closing my app
-                //PebbleKit.closeAppOnPebble(getApplicationContext(), PEBBLE_APP_UUID);
-            }
-        });
-        PebbleKit.registerPebbleDisconnectedReceiver(c, new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.i("CrashCourse", "Pebble disconnected!");
-            }
-        });
         //Check for android wear
         mTeleportClient = new TeleportClient(c);
     }
@@ -55,30 +38,59 @@ public class WatchSync {
     }
     protected void onStart() {
         mTeleportClient.connect();
+        //Check if pebble is active
+        pebble_connected = PebbleKit.isWatchConnected(c);
+        connectedReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("CrashCourse", "Pebble connected!");
+                // Launching my app
+                PebbleKit.startAppOnPebble(c, PEBBLE_APP_UUID);
+                // Closing my app
+                //PebbleKit.closeAppOnPebble(getApplicationContext(), PEBBLE_APP_UUID);
+            }
+        };
+        PebbleKit.registerPebbleConnectedReceiver(c, connectedReceiver);
+        disconnectedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.i("CrashCourse", "Pebble disconnected!");
+            }
+        };
+        PebbleKit.registerPebbleDisconnectedReceiver(c, disconnectedReceiver);
         wear_connected = true;
     }
 
     protected void onStop() {
         mTeleportClient.disconnect();
         wear_connected = false;
-
+        c.unregisterReceiver(connectedReceiver);
+        c.unregisterReceiver(disconnectedReceiver);
     }
 
-    public void sendUpdate(LatLng loc_user, LatLng loc_orb, String address, Integer time){
+    public void sendUpdate(LatLng loc_user, LatLng loc_orb, String address, String time, byte vib){
         if(pebble_connected){
             PebbleDictionary data = new PebbleDictionary();
-            // Add a key of 0, for the user's longitude
-            data.addString(0, String.valueOf(loc_user.longitude));
-            // Add a key of 1, for the user's latitude
-            data.addString(1, String.valueOf(loc_user.latitude));
-            // Add a key of 2, for the orb's longitude
-            data.addString(2, String.valueOf(loc_orb.longitude));
-            // Add a key of 3, for the orb's latitude
-            data.addString(3, String.valueOf(loc_orb.latitude));
+            if(loc_user != null){
+                // Add a key of 0, for the user's longitude
+                data.addInt32(0, (int)loc_user.longitude*100000);
+                // Add a key of 1, for the user's latitude
+                data.addInt32(1, (int)loc_user.latitude*100000);
+            }
+            if(loc_orb != null) {
+                // Add a key of 2, for the orb's longitude
+                data.addInt32(2, (int)loc_orb.longitude*100000);
+                // Add a key of 3, for the orb's latitude
+                data.addInt32(3, (int)loc_orb.latitude*100000);
+            }
+            if(address != null)
             // Add a key of 4, and a string for the street.
-            data.addString(4, address);
-            // Add a key of 4, and a string for the timer.
-            data.addInt32(5, time);
+                data.addString(4, address);
+            if(time != null)
+            // Add a key of 5, and a string for the timer.
+                data.addString(5, time);
+            data.addInt8(6, vib);
 
             PebbleKit.sendDataToPebble(c, PEBBLE_APP_UUID, data);
         }
@@ -95,7 +107,7 @@ public class WatchSync {
             if(address != null)
                 mTeleportClient.syncString("address", address);
             if(time != null)
-                mTeleportClient.syncLong("timer", time);
+                mTeleportClient.syncString("timer", time);
         }
 
     }

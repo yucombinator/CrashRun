@@ -47,6 +47,7 @@ import org.androidannotations.annotations.UiThread;
 public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChangeListener{
     Game game;
     private View roundUp;
+    private WatchSync watchSync;
 
     public void make(Game game) {
         this.game = game;
@@ -174,6 +175,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	@Override
 	public void onResume(){
 		super.onResume();
+        watchSync = WatchSync.newInstance(getActivity());
 		Log.d(MainActivity.TAG, "onResume()");
         /* We query for the best Location Provider everytime this fragment is displayed
          * just in case a better provider might have become available since we last displayed it */
@@ -580,7 +582,7 @@ TODO Fix this
 				if(!MainActivity.paused){
 				checkForNearbyItems(last_location);
 				}
-				
+            watchSync.sendUpdate(last_location,null,null,null,(byte)0);
 	    }
 
 

@@ -3,6 +3,7 @@ package com.icechen1.crashcourse;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class MainActivity extends Activity {
         //Check for android wear
         mTeleportClient = new TeleportClient(this);
         mTeleportClient.setOnSyncDataItemTask(new OnSyncDataItemTask());
+        //Toast.makeText(getApplicationContext(), "GOT MESSAGE MAN", Toast.LENGTH_SHORT).show();
+        //Log.e("CrashCourse", "GOT MESSAGE MAN");
     }
     @Override
     protected void onStart() {
@@ -48,7 +51,7 @@ public class MainActivity extends Activity {
 
             //let`s get the String from the DataMap, using its identifier key
             long time = dataMap.getLong("timer");
-
+            Log.e("CrashCourse", "GOT time");
             //let`s create a pretty Toast with our string!
             Toast.makeText(getApplicationContext(), String.valueOf(time), Toast.LENGTH_SHORT).show();
 

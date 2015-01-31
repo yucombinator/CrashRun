@@ -373,11 +373,12 @@ public class MainActivity
 					}
 					timerText.setText("" + m + ":" + sec);
 					setProgressBarIndeterminateVisibility(true);
-                    watchSync.sendUpdate(null,null,null,100);
+                    watchSync.sendUpdate(null,null,null,"" + m + ":" + sec,(byte)0);
 				}
 
 				public void onFinish() 
 				{
+                    watchSync.sendUpdate(null,null,null, "00:00",(byte)1);
 					timerText.setText("Game over!");
                     //Submit score
                     if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
@@ -408,6 +409,14 @@ public class MainActivity
         if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
         startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mHelper.mGoogleApiClient,
                 "CgkI-uCdiKAKEAIQAQ"), 1337);
+        else
+            // start the asynchronous sign in flow
+            mHelper.mGoogleApiClient.connect();
+    }
+
+    public void achievements(View v){
+        if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
+            startActivityForResult( Games.Achievements.getAchievementsIntent(getApiClient()), 13737);
         else
             // start the asynchronous sign in flow
             mHelper.mGoogleApiClient.connect();
