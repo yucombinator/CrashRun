@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gamejam.crashrun.MainActivity;
+import com.google.android.gms.games.achievement.Achievements;
 
 /**
  * Created by David on 2015-01-30.
@@ -31,6 +32,7 @@ public class Game {
     public int scoreAdd(int scoreV) {
         score += scoreV;
         Log.d("game score", String.valueOf(score));
+
         return score;
 
     }

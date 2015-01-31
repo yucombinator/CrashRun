@@ -20,5 +20,6 @@
 	<string name="demobtn">Demo mode toggle</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
 
 </resources>
