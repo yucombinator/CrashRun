@@ -544,5 +544,8 @@ TODO Fix this
 
         }
 	}
-	
+    public void stopGame() {
+        orbs.clear();
+        mMap.clear();
+    }
 }

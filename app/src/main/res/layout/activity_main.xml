@@ -62,21 +62,6 @@
                 android:paddingLeft="5dp"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/textView3" />
-            <mehdi.sakout.fancybuttons.FancyButton
-                android:id="@+id/btn_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fancy:borderColor="#727272"
-                fancy:borderWidth="2dp"
-                fancy:defaultColor="#FFFFFF"
-                fancy:focusColor="#FFFFFF"
-                fancy:iconPosition="left"
-                fancy:radius="10dp"
-                fancy:text=" &#63; "
-                fancy:textColor="#727272"
-
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"

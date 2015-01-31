@@ -37,7 +37,7 @@ import org.androidannotations.annotations.UiThread;
 @EActivity
 public class MainActivity
     extends ActionBarActivity
-    implements onCameraListener, ActionBar.TabListener
+    implements onCameraListener
 {
 	/*TODO 
 	 * ADD CREDITS FOR GMAPS AND OSM
@@ -52,7 +52,7 @@ public class MainActivity
 
     public static String TAG = "BathroomFinder";
 	
-    Fragment mMapFragment;
+    ViewMapFragment_ mMapFragment;
     Fragment mListFragment;
     TextView timerText;
     TextView roundText;
@@ -135,6 +135,8 @@ public class MainActivity
         if(paused)
         {
             game = new Game();
+            mMapFragment.make(game);
+            mMapFragment.startGame();
             cdt = null;
             Countdown();
             paused  = false;
@@ -200,6 +202,7 @@ public class MainActivity
                     anim.start();
 
                     cdt.cancel();
+                    mMapFragment.stopGame();
                     paused = true;
                     roundText = (TextView) LL.findViewById(R.id.textRounds);
                     roundText.setText("Game Paused");
@@ -256,23 +259,16 @@ public class MainActivity
         //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         if(savedInstanceState != null){
-//        	allTapItem = (ArrayList<OSMNode>) savedInstanceState.get("allTapItem");
-//        	allToiletItem = (ArrayList<OSMNode>) savedInstanceState.get("allToiletItem");
-//        	allFoodItem = (ArrayList<OSMNode>) savedInstanceState.get("allFoodItem");
+        //restore instances here
         }
-        //TODO Semi-Transparent Action Bar
-       // requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);       
-       // getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_bg_black));
-        
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         setContentView(R.layout.activity_main);
-    	configureActionBar();
     	FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mMapFragment = getSupportFragmentManager().findFragmentByTag("map");
+		mMapFragment = (ViewMapFragment_) getSupportFragmentManager().findFragmentByTag("map");
 
 		if (mMapFragment == null) {
 			// If not, instantiate and add it to the activity
-            ViewMapFragment mMapFragment = new ViewMapFragment_();
-            mMapFragment.make(game);
+            mMapFragment = new ViewMapFragment_();
 
 			ft.add(R.id.containerFrag, mMapFragment, "map").commit();
 		} else {
@@ -284,10 +280,8 @@ public class MainActivity
     
     @Override
     public void onSaveInstanceState(Bundle outState){
-//    	outState.putParcelableArrayList("allTapItem", allTapItem);
-//    	outState.putParcelableArrayList("allToiletItem", allToiletItem);
-//    	outState.putParcelableArrayList("allFoodItem", allFoodItem);
-    	super.onSaveInstanceState(outState);
+    //save instances here
+    super.onSaveInstanceState(outState);
     }
     
     @Override
@@ -295,74 +289,6 @@ public class MainActivity
     	super.onStop();
     	
     }
-
-
-    private void configureActionBar() {
-/*        ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
-        Tab tab = actionBar.newTab()
-                .setText("Map") //TODO String
-                .setTabListener(this);
-        actionBar.addTab(tab);
-
-        tab = actionBar.newTab()
-            .setText("List") //TODO String
-            .setTabListener(this);
-        actionBar.addTab(tab);*/
-        
-    }
-	@Override
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-		
-		if(tab.getPosition() == 0){
-			// Check if the fragment is already initialized
-			mMapFragment = getSupportFragmentManager().findFragmentByTag("map");
-			if (mMapFragment == null) {
-				// If not, instantiate and add it to the activity
-				mMapFragment = new ViewMapFragment_();
-				ft.add(R.id.containerFrag, mMapFragment, "map");
-			} else {
-				// If it exists, simply attach it in order to show it
-				ft.show(mMapFragment);
-			}
-		}
-		if(tab.getPosition() == 1){
-			// Check if the fragment is already initialized
-			mMapFragment = getSupportFragmentManager().findFragmentByTag("list");
-			if (mListFragment == null) {
-				// If not, instantiate and add it to the activity
-			//	mListFragment = new RestroomListFragment_();
-				ft.add(R.id.containerFrag, mListFragment, "list");
-			} else {
-				// If it exists, simply attach it in order to show it
-				ft.show(mListFragment);
-			}
-		}
-
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		if(tab.getPosition() == 0){
-			if (mMapFragment != null) {
-				// Detach the fragment, because another one is being attached
-				ft.hide(mMapFragment);
-			}
-		}
-		if(tab.getPosition() == 1){
-			if (mListFragment != null) {
-				// Detach the fragment, because another one is being attached
-				ft.hide(mListFragment);
-			}
-		}
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void onCameraLocationChange(LatLng loc) {
