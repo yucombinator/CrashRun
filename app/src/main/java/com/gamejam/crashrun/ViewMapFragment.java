@@ -74,7 +74,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         public void onOrbGet();
 		public void onNewRound();
     }
-    
+
     public static enum MapType{
     	Satellite, Hybrid, Map, Terrain
     }
@@ -99,7 +99,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         }catch (Exception e){
         	type = "normal";
         }
-	    
+
         if(type.equals("satellite")){
         	maptype = GoogleMap.MAP_TYPE_SATELLITE;
         }else if (type.equals("normal")){
@@ -109,7 +109,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         }else if (type.equals("hybrid")){
         	maptype = GoogleMap.MAP_TYPE_HYBRID;
         }
-	    	    
+
     	GoogleMapOptions options = new GoogleMapOptions();
     	options.mapType(maptype) //TODO OPTIONS
     	.compassEnabled(true)
@@ -126,7 +126,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     		fragmentTransaction.add(R.id.map_container, mMapFragment,"mapfragment");
     		fragmentTransaction.commit();
     	}
-    	
+
         // creates our custom LocationSource and initializes some of its members
     	customLocationSource = new CustomLocationSource(getActivity().getApplicationContext());
         /*customLocationSource.onLocationChanged(new CustomLocationSource.LocationListener(){
@@ -138,7 +138,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         }); */
     	orbs = new ArrayList<LatLng>();
 
-    	return RelativeLayout; 
+    	return RelativeLayout;
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         setRetainInstance(true);
-        
+
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
@@ -170,7 +170,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         /* Disable the my-location layer (this causes our LocationSource to be automatically deactivated.) */
         mMap.setMyLocationEnabled(false);
 	}
-	
+
 	@Override
 	public void onResume(){
 		super.onResume();
@@ -178,31 +178,31 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         /* We query for the best Location Provider everytime this fragment is displayed
          * just in case a better provider might have become available since we last displayed it */
 		customLocationSource.getBestAvailableProvider();
-        
+
 		mMap = ((SupportMapFragment) getFragmentManager().findFragmentByTag("mapfragment")).getMap();
 		// Check if we were successful in obtaining the map.
 		if (mMap != null) {
 			// The Map is verified. It is now safe to manipulate the map.
 			mMap.setOnCameraChangeListener(this);
-			
+
 			//mMap.setInfoWindowAdapter(new PopupAdapter(getActivity().getLayoutInflater()));
-			
+
             // Replace the (default) location source of the my-location layer with our custom LocationSource
             mMap.setLocationSource(customLocationSource);
            // mMap.
             // Set default zoom
             // mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
-            
+
 		//	mMap.setOnInfoWindowClickListener(this);
-			
+
 			Log.d(MainActivity.TAG, "Setting mMap Options");
 
 			//RESTORE ALL ITEMS
 			if(last_location!= null){
 				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(last_location, 14));
 			}
-		
-			
+
+
 		 }
 	}
 
@@ -218,16 +218,16 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		//	mMap.clear();
 		if (MainActivity.DEMO){
 		addMarker(location,1);
-		}	
+		}
 		if(!MainActivity.paused && MainActivity.DEMO){
 			checkForNearbyItems(location);
 		}
-		
+
 	}
 	public void checkForNearbyItems(){
 		checkForNearbyItems(currentLocation);
 	}
-	
+
 	public void checkForNearbyItems(LatLng location) {
 		if(orbs.size() > 0){
 			//List<LatLng> orbToRemove = new ArrayList<LatLng>();
@@ -240,20 +240,20 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			Location LocationOrb = new Location("Orb");
 			LocationOrb.setLatitude(orb.latitude);
 			LocationOrb.setLongitude(orb.longitude);
-			
+
 			Location LocationUser = new Location("User");
 			LocationUser.setLatitude(location.latitude);
 			LocationUser.setLongitude(location.longitude);
 
 			Double distance = (double) LocationOrb.distanceTo(LocationUser);
-			
+
 			if(distance < 15){
 
 				if(MainActivity.DEMO){
 				int duration = Toast.LENGTH_SHORT;
 				Toast.makeText(getActivity().getApplicationContext(), "Close enough to orb", duration).show();
 				}
-				
+
 				iter.remove();
 				mCallback.onOrbGet();
 				if(orbs.size() < 2){
@@ -271,7 +271,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 				//TODO VIBRATE
 			}
 			}catch(Exception e){
-				
+
 			}
 
 		}
@@ -280,28 +280,37 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		for(int i = 0; i < orbs.size(); i++)
 		{
 			addMarker(orbs.get(i),0);
-			
+
 		}
 	}
 	}
 	@Background
 	public void generatePoint(LatLng location){
+
+        int addMoreOrbs;
 		orbs.clear();
 		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext(),game);
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
-		for(int i = 0; i < 10; i++)
-		{
-			LatLng point = mRPP.getRandomPoint();
-			if(point != null){
-			orbs.add(point);
-			addMarker(orbs.get((orbs.size()-1)),0);
-			}else{
-			Log.d(TAG, "Error generating points");
-			}
-		}
-	}
-	
+        addMoreOrbs = (game.levelAdd(0)/2);
+        Log.d("game add more orbs", String.valueOf(5+ addMoreOrbs));
+        if (addMoreOrbs > 10) {
+            addMoreOrbs =10;
+        }
+        for(int i = 0; i < (5 + addMoreOrbs); i++)
+        {
+            LatLng point = mRPP.getRandomPoint();
+            if(point != null){
+                orbs.add(point);
+                addMarker(orbs.get((orbs.size()-1)),0);
+            }else{
+                Log.d(TAG, "Error generating points");
+            }
+        }
+
+
+    }
+
 	@UiThread //later: make apparent boundary bigger than real boundary
 	public void addPoly(RandomPointProvider mRPP){
 		mMap.clear();
@@ -310,9 +319,9 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 //	       .width(5)
 //	       .color(Color.RED));
 	}
-	
-	
-	
+
+
+
 	@Background
 	public void addMarker(LatLng Node,int type){
 		/*
@@ -329,7 +338,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		       .snippet("Go get it!")
 		       .icon(BitmapDescriptorFactory.fromResource(R.drawable.heart));
 			 UiAddMarker(MarkerOptions);
-			    
+
 			}
 			if(type == 1){
 				 MarkerOptions MarkerOptions = new MarkerOptions()
@@ -339,9 +348,9 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 				 UiAddMarker(MarkerOptions);
 				}
-			
+
 		 }
-		 
+
 	}
 	@UiThread
 	public void UiAddMarker(MarkerOptions MarkerOptions){
@@ -391,7 +400,7 @@ TODO Fix this
 		// TODO Auto-generated method stub
 		Log.d(TAG,"LocationChanged");
 		mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(arg0.getLatitude(), arg0.getLongitude())));
-		
+
 	}
 	*/
 	@Background
@@ -399,7 +408,7 @@ TODO Fix this
 	{
 		currentLocation = location;
 	}
-	/* Our custom LocationSource. 
+	/* Our custom LocationSource.
 	 * We register this class to receive location updates from the Location Manager
 	 * and for that reason we need to also implement the LocationListener interface. */
 	public class CustomLocationSource implements LocationSource, LocationListener {
@@ -487,15 +496,15 @@ TODO Fix this
 	        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 			//mCallback.onCameraLocationChange(location);
 			//last_location = location;
-				
+
 				//TODO DELETE THIS
 			//	mMap.clear();
-				//addMarker(arg0.target,1);		
+				//addMarker(arg0.target,1);
 				updateLocation(last_location);
 				if(!MainActivity.paused){
 				checkForNearbyItems(last_location);
 				}
-				
+
 	    }
 
 
@@ -503,9 +512,9 @@ TODO Fix this
 	    public void onStatusChanged(String s, int i, Bundle bundle) {
     		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
 	    	if (i == LocationProvider.AVAILABLE){
-	    		waitingLayout.setVisibility(View.GONE);	
+	    		waitingLayout.setVisibility(View.GONE);
 	    	}else{
-	    		waitingLayout.setVisibility(View.VISIBLE);	
+	    		waitingLayout.setVisibility(View.VISIBLE);
 	    	}
 	    }
 
@@ -518,21 +527,21 @@ TODO Fix this
 	    @Override
 	    public void onProviderDisabled(String s) {
     		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
-    		waitingLayout.setVisibility(View.VISIBLE);	
+    		waitingLayout.setVisibility(View.VISIBLE);
 	    }
 	}
 	public void addOrbs() {
 		// TODO Auto-generated method stub
 		generatePoint(last_location);
 	}
-	
+
 
     public void startGame() {
 		// TODO Auto-generated method stub
         game.newGame();
 		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
-		waitingLayout.setVisibility(View.GONE);	
-		
+		waitingLayout.setVisibility(View.GONE);
+
 		if(orbs.size() < 1){
             game.newRound();
             mCallback.onNewRound();
@@ -543,5 +552,5 @@ TODO Fix this
 
         }
 	}
-	
+
 }

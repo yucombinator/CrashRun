@@ -17,6 +17,7 @@ public class RandomPointProvider
 	public LatLng user;
 	double nodeX = 0;
 	double nodeY = 0;
+    double toAdd;
 	
 	Geocoder gc;
 	
@@ -30,30 +31,33 @@ public class RandomPointProvider
     //generate orbs x distance away from each other
 	
 	public RandomPointProvider(LatLng location, Range range, Context c, Game game)
-	{
-		user = location;
-		
-		if (range == RandomPointProvider.Range.SHORT)
-		{
+    {
+        user = location;
+        toAdd = (game.levelAdd(0)*1.0)/10000;
+        if (toAdd >= 0.010) {
+            toAdd = 0.01;
+        }
+        if (range == RandomPointProvider.Range.SHORT)
+        {
             //add 1 per round until max
-			maxRange = 0.002;
-            maxRange += (game.levelAdd(0)*1.0)/1000;
-		}
-		else if(range == RandomPointProvider.Range.MEDIUM)
-		{
+            maxRange = 0.002;
+            maxRange += toAdd;
+        }
+        else if(range == RandomPointProvider.Range.MEDIUM)
+        {
             //add 1 per round until max
-			maxRange = 0.003;
-            maxRange += (game.levelAdd(0)*1.0)/1000;
-		}
-		else if(range == RandomPointProvider.Range.LONG)
-		{
+            maxRange = 0.003;
+            maxRange += toAdd;
+        }
+        else if(range == RandomPointProvider.Range.LONG)
+        {
             //add 1 per round until max
-			maxRange = 0.004;
-            maxRange += (game.levelAdd(0)*1.0)/1000;
-		}
+            maxRange = 0.004;
+            maxRange += toAdd;
+        }
         Log.d("game max range", String.valueOf(maxRange));
-		gc  = new Geocoder(c);
-	}
+        gc  = new Geocoder(c);
+    }
 
 //	public LatLng getRandomPoint(double maxRange){
 //		double t = 2*Math.PI*Math.random();
