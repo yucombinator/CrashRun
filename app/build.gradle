@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "com.gamejam.crashrun"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 16
     }
 
@@ -42,4 +42,6 @@ dependencies {
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'com.getpebble:pebblekit:2.6.0'
+    compile 'Teleport:teleportlib:0.1.4'
+    wearApp project(':wear')
 }
