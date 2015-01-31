@@ -9,7 +9,7 @@ apt {
         resourcePackageName 'com.gamejam.crashrun'
 
         // If you're using Android NBS flavors you should use the following line instead of hard-coded packageName
-        // resourcePackageName android.defaultConfig.packageName
+        //resourcePackageName android.defaultConfig.packageName
 
         // You can set optional annotation processing options here, like these commented options:
         // logLevel 'INFO'
@@ -17,7 +17,7 @@ apt {
     }
 }
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:21'
+    compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {

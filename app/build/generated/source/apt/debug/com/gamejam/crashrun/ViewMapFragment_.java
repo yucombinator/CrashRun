@@ -69,20 +69,6 @@ public final class ViewMapFragment_
     }
 
     @Override
-    public void addPoly(final RandomPointProvider mRPP) {
-        handler_.post(new Runnable() {
-
-
-            @Override
-            public void run() {
-                ViewMapFragment_.super.addPoly(mRPP);
-            }
-
-        }
-        );
-    }
-
-    @Override
     public void UiAddMarker(final com.google.android.gms.maps.model.MarkerOptions MarkerOptions) {
         handler_.post(new Runnable() {
 
@@ -104,6 +90,38 @@ public final class ViewMapFragment_
             @Override
             public void run() {
                 ViewMapFragment_.super.UiAddOverlay(GroundOverlayOptions);
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void addPoly(final RandomPointProvider mRPP) {
+        handler_.post(new Runnable() {
+
+
+            @Override
+            public void run() {
+                ViewMapFragment_.super.addPoly(mRPP);
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void generatePoint(final LatLng location) {
+        BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
+
+
+            @Override
+            public void execute() {
+                try {
+                    ViewMapFragment_.super.generatePoint(location);
+                } catch (Throwable e) {
+                    Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
+                }
             }
 
         }
@@ -137,24 +155,6 @@ public final class ViewMapFragment_
             public void execute() {
                 try {
                     ViewMapFragment_.super.addMarker(Node, type);
-                } catch (Throwable e) {
-                    Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                }
-            }
-
-        }
-        );
-    }
-
-    @Override
-    public void generatePoint(final LatLng location) {
-        BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0, "") {
-
-
-            @Override
-            public void execute() {
-                try {
-                    ViewMapFragment_.super.generatePoint(location);
                 } catch (Throwable e) {
                     Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                 }
