@@ -20,6 +20,7 @@ public class Game {
         Log.d("game lvl", String.valueOf(level));
     }
 
+
     public int levelAdd(int levelV) {
         level += levelV;
         Log.d("game lvl", String.valueOf(level));

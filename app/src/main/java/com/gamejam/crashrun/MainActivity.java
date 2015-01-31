@@ -382,6 +382,9 @@ public class MainActivity
 					 
 					// Only perform this pattern one time (-1 means "do not repeat")
 					v.vibrate(pattern, -1);
+
+                    game.newGame();
+                    a = 60*(game.levelAdd(0))*1000;
 					
 				}
 			}.start();
@@ -394,7 +397,6 @@ public class MainActivity
 		Log.d(TAG, ""+ a);
 		cdt.cancel();
 		cdt = null;
-		a += orb_value;
         game.scoreAdd(100);
 		Countdown();
 		// Get instance of Vibrator from current Context
@@ -425,6 +427,8 @@ public class MainActivity
         
 		roundText.setText("Round " + rounds);
 		timerText.setText("5:00");
+
+        a = 60*(game.levelAdd(0))*1000;
   		Countdown();
 	}	
 
