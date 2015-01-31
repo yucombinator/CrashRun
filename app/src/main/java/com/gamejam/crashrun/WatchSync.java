@@ -21,10 +21,12 @@ public class WatchSync {
     private  TeleportClient mTeleportClient;
     Context c;
     private boolean wear_connected = false;
+    private static WatchSync mInstance;
 
     public WatchSync(final Context c){
         //save the contest
         this.c = c;
+        mInstance = this;
         //Check if pebble is active
         pebble_connected = PebbleKit.isWatchConnected(c);
         PebbleKit.registerPebbleConnectedReceiver(c, new BroadcastReceiver() {
@@ -47,6 +49,10 @@ public class WatchSync {
         //Check for android wear
         mTeleportClient = new TeleportClient(c);
     }
+    public static WatchSync newInstance(Context c){
+        if(mInstance != null) return mInstance;
+        return new WatchSync(c);
+    }
     protected void onStart() {
         mTeleportClient.connect();
         wear_connected = true;
@@ -58,7 +64,7 @@ public class WatchSync {
 
     }
 
-    public void sendUpdate(LatLng loc_user, LatLng loc_orb, String address, int time){
+    public void sendUpdate(LatLng loc_user, LatLng loc_orb, String address, Integer time){
         if(pebble_connected){
             PebbleDictionary data = new PebbleDictionary();
             // Add a key of 0, for the user's longitude
@@ -77,12 +83,19 @@ public class WatchSync {
             PebbleKit.sendDataToPebble(c, PEBBLE_APP_UUID, data);
         }
         if(wear_connected){
-            mTeleportClient.syncString("myloc_lat", String.valueOf(loc_user.longitude));
-            mTeleportClient.syncString("myloc_lon", String.valueOf(loc_user.latitude));
-            mTeleportClient.syncString("orb_lat", String.valueOf(loc_orb.longitude));
-            mTeleportClient.syncString("orb_lon", String.valueOf(loc_orb.latitude));
-            mTeleportClient.syncString("address", address);
-            mTeleportClient.syncLong("timer", time);
+            mTeleportClient.sendMessage("startActivity", null);
+            if(loc_user != null){
+                mTeleportClient.syncString("myloc_lat", String.valueOf(loc_user.longitude));
+                mTeleportClient.syncString("myloc_lon", String.valueOf(loc_user.latitude));
+            }
+            if(loc_orb != null) {
+                mTeleportClient.syncString("orb_lat", String.valueOf(loc_orb.longitude));
+                mTeleportClient.syncString("orb_lon", String.valueOf(loc_orb.latitude));
+            }
+            if(address != null)
+                mTeleportClient.syncString("address", address);
+            if(time != null)
+                mTeleportClient.syncLong("timer", time);
         }
 
     }
