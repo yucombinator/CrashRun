@@ -12,7 +12,7 @@ import com.google.android.gms.games.achievement.Achievements;
  */
 public class Game {
     public int level;
-    private int score;
+    public int score;
     private int time;
     public void newGame() {
         level = 1;

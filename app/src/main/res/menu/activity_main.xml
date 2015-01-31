@@ -35,6 +35,17 @@
         </item>
         <item android:id="@+id/help" app:showAsAction="always" android:icon="@drawable/ic_action_communication_live_help" android:title="@string/help"></item>
     <item
+        android:id="@+id/sign_out"
+        android:icon="@drawable/ic_action_social_share"
+        android:title="@string/sign_out"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/sign_in"
+        android:icon="@drawable/ic_action_social_share"
+        android:title="@string/sign_in"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_action_social_share"
         android:title="@string/share"

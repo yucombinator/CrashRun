@@ -256,7 +256,6 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 				mCallback.onOrbGet();
 				if(orbs.size() < 2){
                     game.levelAdd(1);
-
 					game.newRound();
                     showRoundScreen();
                     mCallback.onNewRound();
@@ -328,7 +327,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		       .snippet("Go get it!")
 		       .icon(BitmapDescriptorFactory.fromResource(R.drawable.heart));
 			 UiAddMarker(MarkerOptions);
-			    
+
 			}
 			if(type == 1){
 				 MarkerOptions MarkerOptions = new MarkerOptions()
@@ -345,7 +344,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	@UiThread
 	public void UiAddMarker(MarkerOptions MarkerOptions){
 	mMap.addMarker(MarkerOptions);
-	}
+    }
 	@UiThread
 	public void UiAddOverlay(GroundOverlayOptions GroundOverlayOptions){
 	    mMap.addGroundOverlay(GroundOverlayOptions);

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.gamejam.crashrun.ViewMapFragment.onCameraListener;
 import com.gamejam.crashrun.game.Game;
+import com.google.android.gms.games.Games;
 import com.google.android.gms.maps.model.LatLng;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -36,7 +37,7 @@ import org.androidannotations.annotations.UiThread;
 
 @EActivity
 public class MainActivity
-    extends ActionBarActivity
+    extends BaseGameActivity
     implements onCameraListener
 {
 	/*TODO 
@@ -84,6 +85,8 @@ public class MainActivity
 		if (mMapFragment.mMap != null) {
       	mMapFragment.mMap.setMyLocationEnabled(true);
 		}
+        _abs_menu.findItem(R.id.sign_out).setVisible(false);
+        _abs_menu.findItem(R.id.sign_in).setVisible(true);
         return true;
     }
     
@@ -127,10 +130,19 @@ public class MainActivity
     	  else{
     		  DEMO = false;
     	  }
+      }else if(item.getItemId() == R.id.sign_in){
+          // start the asynchronous sign in flow
+          mHelper.mGoogleApiClient.connect();
+      }
+      else if(item.getItemId() == R.id.sign_out){
+          // sign out.
+          Games.signOut(mHelper.mGoogleApiClient);
+          _abs_menu.findItem(R.id.sign_out).setVisible(false);
+          _abs_menu.findItem(R.id.sign_in).setVisible(true);
       }
       return super.onOptionsItemSelected(item);
     }
-    //TODO RoundUp Screen
+
     public void gameToggle(final View v){
         final View myView = findViewById(R.id.card_view);
         final View shade = findViewById(R.id.shade);
@@ -146,7 +158,7 @@ public class MainActivity
             roundText.setText("Round " + rounds);
             ViewMapFragment mMapFragment = (ViewMapFragment) getSupportFragmentManager().findFragmentByTag("map");
             mMapFragment.checkForNearbyItems();
-            ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_pause));
+            ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_navigation_close));
 
             //TRANSITION ANIMATION!
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //only with api>=21
@@ -359,6 +371,9 @@ public class MainActivity
 				public void onFinish() 
 				{
 					timerText.setText("Game over!");
+                    //Submit score
+                    if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
+                        Games.Leaderboards.submitScore(mHelper.mGoogleApiClient, "CgkI-uCdiKAKEAIQAQ", game.level);
 					setProgressBarIndeterminateVisibility(false);
 					
 					// Get instance of Vibrator from current Context
@@ -381,7 +396,14 @@ public class MainActivity
 			}.start();
 		}
 	}
-
+    public void leaderboard(View v){
+        if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
+        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mHelper.mGoogleApiClient,
+                "CgkI-uCdiKAKEAIQAQ"), 1337);
+        else
+            // start the asynchronous sign in flow
+            mHelper.mGoogleApiClient.connect();
+    }
 	@Override
 	public void onOrbGet()
 	{
@@ -421,6 +443,16 @@ public class MainActivity
 
         a = 60*(game.levelAdd(0))*1000;
   		Countdown();
-	}	
+	}
 
+    @Override
+    public void onSignInFailed() {
+
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+        _abs_menu.findItem(R.id.sign_out).setVisible(true);
+        _abs_menu.findItem(R.id.sign_in).setVisible(false);
+    }
 }
