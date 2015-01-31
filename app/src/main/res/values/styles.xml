@@ -1,5 +1,17 @@
 <resources>
 
-			<style name="AppTheme" parent="@style/Theme.AppCompat" />
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="spinnerDropDownItemStyle">@style/dropdown</item>
+    </style>
 
+    <style name="dropdown" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:textAppearance">@style/dropdownText</item>
+    </style>
+
+    <style name="dropdownText" parent="@android:style/Widget">
+        <item name="android:textColor">#212121</item>
+        <!-- Here you can set the color and other text attributes -->
+    </style>
 </resources>

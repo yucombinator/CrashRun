@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:text="Game Not Started"
-        android:textColor="#808080" />
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/textTimeronTheActionBar"
@@ -24,6 +24,6 @@
         android:fontFamily="sans-serif-condensed"
         android:text="00:00"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#696969" />
+        android:textColor="@color/text" />
 
 </LinearLayout>

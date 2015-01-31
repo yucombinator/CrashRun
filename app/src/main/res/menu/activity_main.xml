@@ -11,7 +11,7 @@
     <item android:id="@+id/credits" app:showAsAction="never" android:title="@string/credits"></item>
 <item
     android:id="@+id/more"
-    android:icon="@drawable/ic_menu_mapmode"
+    android:icon="@drawable/ic_action_maps_map"
     app:showAsAction="always|withText"
     android:title="@string/map_type">
     <menu>
@@ -34,6 +34,10 @@
         </menu> 
         </item>
         <item android:id="@+id/help" android:icon="@drawable/ic_menu_help" android:title="@string/help" app:showAsAction="ifRoom"></item>
-        <item android:id="@+id/share" android:icon="@drawable/ic_menu_share" android:title="@string/share" app:showAsAction="always"></item>
-        <item android:id="@+id/demo_mode" android:title="@string/demobtn"></item>
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_action_social_share"
+        android:title="@string/share"
+        app:showAsAction="always"></item>
+    <item android:id="@+id/demo_mode" android:title="@string/demobtn"></item>
 </menu>
