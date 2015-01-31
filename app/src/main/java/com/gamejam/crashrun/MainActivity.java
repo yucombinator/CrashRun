@@ -1,6 +1,8 @@
 
 package com.gamejam.crashrun;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -44,13 +47,10 @@ public class MainActivity
     public static long a = 300000; //time remaining
     static long orb_value = 60000;
 
-    Game game = new Game();
+    Game game;
 
 
     public static String TAG = "BathroomFinder";
-//	static ArrayList <OSMNode> allTapItem = new ArrayList<OSMNode>();
-//	static ArrayList <OSMNode> allToiletItem = new ArrayList<OSMNode>();
-//	static ArrayList <OSMNode> allFoodItem = new ArrayList<OSMNode>();
 	
     Fragment mMapFragment;
     Fragment mListFragment;
@@ -59,7 +59,7 @@ public class MainActivity
     public static CountDownTimer cdt;
 
     int rounds = 0;
-	static boolean paused = false;
+	static boolean paused = true;
 	private Menu _abs_menu;
 	View LL ;
 	static boolean DEMO = false;
@@ -128,35 +128,55 @@ public class MainActivity
     		  DEMO = false;
     	  }
       }
-      
-
-    
       return super.onOptionsItemSelected(item);
     }
     public void gameToggle(View v){
-        if(paused == true)
+
+        if(paused)
         {
+            game = new Game();
             cdt = null;
             Countdown();
             paused  = false;
-
             roundText = (TextView) LL.findViewById(R.id.textRounds);
-
             roundText.setText("Round " + rounds);
-
             ViewMapFragment mMapFragment = (ViewMapFragment) getSupportFragmentManager().findFragmentByTag("map");
             mMapFragment.checkForNearbyItems();
             ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_pause));
 
+            //TRANSITION ANIMATION!
 
+            // previously visible view
+            final View myView = findViewById(R.id.card_view);
+
+            // get the center for the clipping circle
+            int cx = (myView.getLeft() + myView.getRight()) / 2;
+            int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+            // get the initial radius for the clipping circle
+            int initialRadius = myView.getWidth();
+
+            // create the animation (the final radius is zero)
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+
+            // make the view invisible when the animation is done
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    myView.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            // start the animation
+            anim.start();
         } else {
+            //Show conformation
             cdt.cancel();
             paused = true;
-
             roundText = (TextView) LL.findViewById(R.id.textRounds);
-
             roundText.setText("Game Paused");
-
             ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
         }
     }

@@ -468,8 +468,9 @@ TODO Fix this
 			last_location = new LatLng(location.getLatitude(), location.getLongitude());
 	    	//Remove the loading splash screen
 	    	if(location.getProvider().equals("gps")){
-	    		startGame();
-	    	}
+                LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
+                waitingLayout.setVisibility(View.GONE);
+            }
 
 	        if (mListener != null) {
 	            mListener.onLocationChanged(location);
@@ -528,10 +529,7 @@ TODO Fix this
 	
 
     public void startGame() {
-		// TODO Auto-generated method stub
         game.newGame();
-		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
-		waitingLayout.setVisibility(View.GONE);	
 		
 		if(orbs.size() < 1){
             game.newRound();

@@ -1,9 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppTheme" parent="@style/Theme.AppCompat">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="spinnerDropDownItemStyle">@style/dropdown</item>
+        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="displayOptions">useLogo|showHome</item>
     </style>
 
     <style name="dropdown" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">

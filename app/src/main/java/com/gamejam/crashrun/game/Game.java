@@ -1,9 +1,10 @@
 package com.gamejam.crashrun.game;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.gamejam.crashrun.MainActivity;
-import com.gamejam.crashrun.ViewMapFragment_;
 
 /**
  * Created by David on 2015-01-30.
@@ -12,7 +13,6 @@ public class Game {
     private int level;
     private int score;
     private int time;
-
     public void newGame() {
         level = 1;
         score = 0;

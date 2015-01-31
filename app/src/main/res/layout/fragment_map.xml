@@ -34,7 +34,6 @@
     android:padding="15dp" >
 
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Waiting for GPS"
@@ -42,7 +41,6 @@
         android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceLarge" />
         <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hang on tight"
@@ -52,4 +50,5 @@
 
 </LinearLayout>
 </LinearLayout>
+    <include layout="@layout/game_menu"/>
     </RelativeLayout>

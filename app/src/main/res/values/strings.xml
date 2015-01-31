@@ -18,5 +18,7 @@
 	<string name="share">Share Score</string>
 	<string name="help_text">Run towards the heart orbs to collect them and increase your time limit. \nCollect 9 out of 10 orbs to advance to the next round. \nTry to get through the most rounds and share the results with your friends! \n \nRemember, don\'t get hit by a car or be stupid.</string>
 	<string name="demobtn">Demo mode toggle</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
