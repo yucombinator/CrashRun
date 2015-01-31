@@ -23,6 +23,10 @@ public class RandomPointProvider
 	{
 		SHORT, MEDIUM, LONG
 	}
+
+    //increase range to a certain extent
+    //decrease time avaliable simutaneously
+    //generate orbs x distance away from each other
 	
 	public RandomPointProvider(LatLng location, Range range, Context c)
 	{
@@ -30,14 +34,17 @@ public class RandomPointProvider
 		
 		if (range == RandomPointProvider.Range.SHORT)
 		{
+            //add 1 per round until max
 			maxRange = 0.002;
 		}
 		else if(range == RandomPointProvider.Range.MEDIUM)
 		{
+            //add 1 per round until max
 			maxRange = 0.003;
 		}
 		else if(range == RandomPointProvider.Range.LONG)
 		{
+            //add 1 per round until max
 			maxRange = 0.004;
 		}	
 		gc  = new Geocoder(c);
