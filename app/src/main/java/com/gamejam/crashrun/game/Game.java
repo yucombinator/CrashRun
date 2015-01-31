@@ -11,7 +11,7 @@ import com.google.android.gms.games.achievement.Achievements;
  * Created by David on 2015-01-30.
  */
 public class Game {
-    private int level;
+    public int level;
     private int score;
     private int time;
     public void newGame() {

@@ -130,8 +130,10 @@ public class MainActivity
       }
       return super.onOptionsItemSelected(item);
     }
+    //TODO RoundUp Screen
     public void gameToggle(final View v){
-
+        final View myView = findViewById(R.id.card_view);
+        final View shade = findViewById(R.id.shade);
         if(paused)
         {
             game = new Game();
@@ -147,42 +149,45 @@ public class MainActivity
             ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_pause));
 
             //TRANSITION ANIMATION!
-
-            // previously visible view
-            final View myView = findViewById(R.id.card_view);
-            final View shade = findViewById(R.id.shade);
-            // get the center for the clipping circle
-            int cx = (myView.getLeft() + myView.getRight()) / 2;
-            int cy = (myView.getTop() + myView.getBottom()) / 2;
-            int shadex = (shade.getLeft() + shade.getRight()) / 2;
-            int shadey = (shade.getTop() + shade.getBottom()) / 2;
-            // get the initial radius for the clipping circle
-            int initialRadius = myView.getWidth();
-            int shadeRadius = shade.getWidth();
-            // create the animation (the final radius is zero)
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-            final Animator shadeanim =
-                    ViewAnimationUtils.createCircularReveal(shade, shadex, shadey, shadeRadius, 0);
-            // make the view invisible when the animation is done
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    myView.setVisibility(View.INVISIBLE);
-                }
-            });
-            // make the view invisible when the animation is done
-            shadeanim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    shade.setVisibility(View.INVISIBLE);
-                }
-            });
-            // start the animation
-            anim.start();
-            shadeanim.start();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //only with api>=21
+                // previously visible view
+                // get the center for the clipping circle
+                int cx = (myView.getLeft() + myView.getRight()) / 2;
+                int cy = (myView.getTop() + myView.getBottom()) / 2;
+                int shadex = (shade.getLeft() + shade.getRight()) / 2;
+                int shadey = (shade.getTop() + shade.getBottom()) / 2;
+                // get the initial radius for the clipping circle
+                int initialRadius = myView.getWidth();
+                int shadeRadius = shade.getWidth();
+                // create the animation (the final radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+                final Animator shadeanim =
+                        ViewAnimationUtils.createCircularReveal(shade, shadex, shadey, shadeRadius, 0);
+                // make the view invisible when the animation is done
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        myView.setVisibility(View.INVISIBLE);
+                    }
+                });
+                // make the view invisible when the animation is done
+                shadeanim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        shade.setVisibility(View.INVISIBLE);
+                    }
+                });
+                // start the animation
+                anim.start();
+                shadeanim.start();
+            }else{
+                //legacy behavior
+                myView.setVisibility(View.INVISIBLE);
+                shade.setVisibility(View.INVISIBLE);
+            }
         } else {
             //Show confirmation dialog
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -193,27 +198,30 @@ public class MainActivity
 
                 public void onClick(DialogInterface dialog, int which) {
                     //Okay, then
-                    // previously invisible view
-                    View myView = findViewById(R.id.card_view);
-                    View shade = findViewById(R.id.shade);
-                    // get the center for the clipping circle
-                    int cx = (myView.getLeft() + myView.getRight()) / 2;
-                    int cy = (myView.getTop() + myView.getBottom()) / 2;
-                    int shadex = (shade.getLeft() + shade.getRight()) / 2;
-                    int shadey = (shade.getTop() + shade.getBottom()) / 2;
-                    // get the final radius for the clipping circle
-                    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-                    int shadefinalRadius = Math.max(shade.getWidth(), shade.getHeight());
-                    // create the animator for this view (the start radius is zero)
-                    Animator anim =
-                            ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-                    Animator shadeanim =
-                            ViewAnimationUtils.createCircularReveal(shade, shadex, shadey, 0, shadefinalRadius);
-                    // make the view visible and start the animation
-                    myView.setVisibility(View.VISIBLE);
-                    shade.setVisibility(View.VISIBLE);
-                    anim.start();
-                    shadeanim.start();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //only with api>=21
+                        // previously invisible view
+                        // get the center for the clipping circle
+                        int cx = (myView.getLeft() + myView.getRight()) / 2;
+                        int cy = (myView.getTop() + myView.getBottom()) / 2;
+                        int shadex = (shade.getLeft() + shade.getRight()) / 2;
+                        int shadey = (shade.getTop() + shade.getBottom()) / 2;
+                        // get the final radius for the clipping circle
+                        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+                        int shadefinalRadius = Math.max(shade.getWidth(), shade.getHeight());
+                        // create the animator for this view (the start radius is zero)
+                        Animator anim =
+                                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+                        Animator shadeanim =
+                                ViewAnimationUtils.createCircularReveal(shade, shadex, shadey, 0, shadefinalRadius);
+                        // make the view visible and start the animation
+                        myView.setVisibility(View.VISIBLE);
+                        shade.setVisibility(View.VISIBLE);
+                        anim.start();
+                        shadeanim.start();
+                    }else{
+                        myView.setVisibility(View.VISIBLE);
+                        shade.setVisibility(View.VISIBLE);
+                    }
 
                     cdt.cancel();
                     mMapFragment.stopGame();

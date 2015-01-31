@@ -13,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gamejam.crashrun.game.Game;
@@ -44,6 +46,8 @@ import org.androidannotations.annotations.UiThread;
 @EFragment
 public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChangeListener{
     Game game;
+    private View roundUp;
+
     public void make(Game game) {
         this.game = game;
 
@@ -129,15 +133,9 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     	
         // creates our custom LocationSource and initializes some of its members
     	customLocationSource = new CustomLocationSource(getActivity().getApplicationContext());
-        /*customLocationSource.onLocationChanged(new CustomLocationSource.LocationListener(){
-
-            @Override
-            public void onLocationChanged(Location location) {
-
-            }
-        }); */
     	orbs = new ArrayList<LatLng>();
-
+        roundUp = RelativeLayout.findViewById(R.id.roundup);
+        roundUp.setVisibility(View.GONE);
     	return RelativeLayout; 
     }
     @Override
@@ -260,6 +258,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                     game.levelAdd(1);
 
 					game.newRound();
+                    showRoundScreen();
                     mCallback.onNewRound();
                     orbs.clear();
                     mMap.clear();
@@ -536,14 +535,25 @@ TODO Fix this
 		
 		if(orbs.size() < 1){
             game.newRound();
+            showRoundScreen();
             mCallback.onNewRound();
             orbs.clear();
             mMap.clear();
             addOrbs();
-
-
         }
 	}
+
+    private void showRoundScreen() {
+        ((TextView)roundUp.findViewById(R.id.roundup_text)).setText("Round " + game.level);
+        roundUp.setVisibility(View.VISIBLE);
+        //hide again
+        Handler h = new Handler();
+        h.postDelayed(new Runnable(){
+            public void run() {
+                roundUp.setVisibility(View.GONE);
+            }}, 2000);
+    }
+
     public void stopGame() {
         orbs.clear();
         mMap.clear();
