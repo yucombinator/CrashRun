@@ -69,9 +69,10 @@ public class MainActivity
 	static boolean paused = true;
 	private Menu _abs_menu;
 	View LL ;
-	static boolean DEMO = false;
+    static boolean DEMO = false;
+    private WatchSync watchSync;
 
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         _abs_menu = menu;
@@ -304,7 +305,19 @@ public class MainActivity
     public void onResume(){
         super.onResume();
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        watchSync = WatchSync.newInstance(this);
+        watchSync.onStart();
 
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        watchSync.onStop();
+
+    }
     //Do not exit the game if it is in progress! Let's overwrite the back button
     @Override
     public void onBackPressed() {
@@ -346,12 +359,6 @@ public class MainActivity
     public void onSaveInstanceState(Bundle outState){
     //save instances here
     super.onSaveInstanceState(outState);
-    }
-    
-    @Override
-    public void onStop(){
-    	super.onStop();
-    	
     }
 
 	@Override
@@ -395,7 +402,8 @@ public class MainActivity
 						sec = "00";
 					}
 					timerText.setText("" + m + ":" + sec);
-					setProgressBarIndeterminateVisibility(true); 
+					setProgressBarIndeterminateVisibility(true);
+                    watchSync.sendUpdate(null,null,null,100);
 				}
 
 				public void onFinish() 
