@@ -38,6 +38,6 @@
         android:id="@+id/share"
         android:icon="@drawable/ic_action_social_share"
         android:title="@string/share"
-        app:showAsAction="always"></item>
+        app:showAsAction="ifRoom"></item>
     <item android:id="@+id/demo_mode" android:title="@string/demobtn"></item>
 </menu>

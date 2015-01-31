@@ -8,6 +8,6 @@
     <color name="primary_dark">#ffd84a20</color>
     <color name="light">#ffff8919</color>
     <color name="text">#FFFFFF</color>
-    <color name="accent">#F44336</color>
-    <color name="accent_dark">#D32F2F</color>
+    <color name="accent">#FF9800</color>
+    <color name="accent_dark">#F57C00</color>
 </resources>

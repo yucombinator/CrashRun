@@ -3,19 +3,11 @@
     android:id="@+id/superawesomecontainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingTop="2dp" >
-
-    <TextView
-        android:id="@+id/textRounds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:text="Game Not Started"
-        android:textColor="@color/text" />
+    android:layout_margin="2dp"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:paddingTop="0dp" >
 
     <TextView
         android:id="@+id/textTimeronTheActionBar"
@@ -23,7 +15,22 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:text="00:00"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/text"
+        android:typeface="serif"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textRounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Game Not Started"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/text" />
+        android:textColor="@color/text"
+        android:paddingLeft="5dp"
+        android:typeface="serif" />
 
 </LinearLayout>

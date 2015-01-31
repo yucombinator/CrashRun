@@ -205,7 +205,7 @@ public class MainActivity
                     mMapFragment.stopGame();
                     paused = true;
                     roundText = (TextView) LL.findViewById(R.id.textRounds);
-                    roundText.setText("Game Paused");
+                    roundText.setText("Game Stopped");
                     ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
                 }
             });

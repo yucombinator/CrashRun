@@ -115,7 +115,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     	.compassEnabled(true)
     	.rotateGesturesEnabled(true)
     	.scrollGesturesEnabled(true)
-    	.tiltGesturesEnabled(false);
+    	.tiltGesturesEnabled(true);
     	RelativeLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_map, container, false);
     	mMapFragment = (SupportMapFragment) getFragmentManager().findFragmentByTag("mapfragment");
     	//create the fragment

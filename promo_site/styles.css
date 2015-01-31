@@ -1,0 +1,90 @@
+body{
+    background-color: #FF5722;
+    font-family: 'Roboto', sans-serif;
+    color:white;
+}
+.phone{
+    width:auto;
+    height:90vh;
+}
+.grid-container{
+    width: 100%; 
+    max-width: 1200px;      
+}
+
+.row:before, 
+.row:after {
+    content:"";
+    display: table ;
+    clear:both;
+}
+
+[class*='col-'] {
+    float: left; 
+    min-height: 1px; 
+    width: 16.66%; 
+    /*-- our gutter -- */
+    padding: 12px; 
+}
+
+.col-1{ width: 16.66%; }
+.col-2{ width: 33.33%; }
+.col-3{ width: 50%;    }
+.col-4{ width: 66.66%; }
+.col-5{ width: 83.33%; }
+.col-6{ width: 100%;   }
+
+.right{
+    text-align: right;
+}
+
+/*-- some extra column content styling --*/
+[class*='col-'] > p {
+ padding: 0;
+ margin: 0;
+ color: white; 
+    font-weight: 200;
+}
+
+@media all and (max-width:800px){
+    .col-1{ width: 33.33%;  }
+    .col-2{ width: 50%;     }
+    .col-3{ width: 83.33%;  }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;    }
+
+    .row .col-2:last-of-type{
+        width: 100%; 
+    }
+
+    .row .col-5 ~ .col-1{
+        width: 100%; 
+    }
+    .right{
+         text-align: center; 
+    }
+}
+
+@media all and (max-width:650px){
+    .col-1{ width: 50%;     }
+    .col-2{ width: 100%;    }
+    .col-3{ width: 100%;    }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;    }
+    .right{
+         text-align: center; 
+    }
+}
+.text{
+    margin-top:10%
+}
+h1{
+    font-weight: 900;
+    margin:0;
+}
+h2{
+    font-weight: 300;
+    margin:0;
+}
