@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="name" value="app: com.gamejam.crashrun" />
+        <option name="packageNamePattern" value="com.gamejam.crashrun" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayouts">
     <shared>
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.gamejam.crashrun" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2c0633c2-5f43-4239-8d0c-351cd29995fe" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\YuChen\Dropbox\Projects\Android\CrashRun\app\src\main\java\com\gamejam\crashrun\ListAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\YuChen\Dropbox\Projects\Android\CrashRun\app\src\main\java\com\gamejam\crashrun\api\AsyncWrapper.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\YuChen\Dropbox\Projects\Android\CrashRun\app\src\main\java\com\gamejam\crashrun\api\OSMNode.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\YuChen\Dropbox\Projects\Android\CrashRun\app\src\main\java\com\gamejam\crashrun\api\OSMWrapperAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\YuChen\Dropbox\Projects\Android\CrashRun\app\src\main\java\com\gamejam\crashrun\utils\ListComparator.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CrashRun.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,6 +43,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2587" max-vertical-offset="6392">
+              <caret line="187" column="43" selection-start-line="187" selection-start-column="43" selection-end-line="187" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="CustomLocationSource.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomLocationSource.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -47,8 +66,8 @@
       <file leaf-file-name="CustomTabListener.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomTabListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="935">
-              <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="218" max-vertical-offset="884">
+              <caret line="39" column="74" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -77,11 +96,11 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6910569" vertical-offset="0" max-vertical-offset="833">
-              <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.5373563" vertical-offset="0" max-vertical-offset="782">
+              <caret line="11" column="77" selection-start-line="11" selection-start-column="77" selection-end-line="11" selection-end-column="77" />
               <folding>
-                <element signature="e#1093#1111#0" expanded="true" />
-                <element signature="e#1308#1326#0" expanded="true" />
+                <element signature="e#957#975#0" expanded="true" />
+                <element signature="e#1172#1190#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -748,13 +767,13 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/game/RandomPointProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/SplashFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/rest/RestClient.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomLocationSource.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/ViewMapFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/ListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
@@ -1040,17 +1059,17 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23113208" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23113208" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23113208" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5459906" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900944" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5459906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973147" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1133,8 +1152,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="833">
           <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
           <folding>
-            <element signature="e#1093#1111#0" expanded="true" />
-            <element signature="e#1308#1326#0" expanded="true" />
+            <element signature="e#957#975#0" expanded="true" />
+            <element signature="e#1172#1190#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1216,8 +1235,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833">
           <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
           <folding>
-            <element signature="e#1093#1111#0" expanded="true" />
-            <element signature="e#1308#1326#0" expanded="true" />
+            <element signature="e#957#975#0" expanded="true" />
+            <element signature="e#1172#1190#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1299,8 +1318,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="850">
           <caret line="30" column="53" selection-start-line="27" selection-start-column="39" selection-end-line="30" selection-end-column="53" />
           <folding>
-            <element signature="e#1093#1111#0" expanded="true" />
-            <element signature="e#1308#1326#0" expanded="true" />
+            <element signature="e#957#975#0" expanded="true" />
+            <element signature="e#1172#1190#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1373,8 +1392,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="850">
           <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
           <folding>
-            <element signature="e#1093#1111#0" expanded="true" />
-            <element signature="e#1308#1326#0" expanded="true" />
+            <element signature="e#957#975#0" expanded="true" />
+            <element signature="e#1172#1190#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1445,26 +1464,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="12090">
-          <caret line="223" column="25" selection-start-line="223" selection-start-column="25" selection-end-line="223" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomLocationSource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="2486">
           <caret line="16" column="77" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomTabListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="186" max-vertical-offset="935">
-          <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1517,13 +1520,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/CustomTabListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="218" max-vertical-offset="884">
+          <caret line="39" column="74" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gamejam/crashrun/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2587" max-vertical-offset="6392">
+          <caret line="187" column="43" selection-start-line="187" selection-start-column="43" selection-end-line="187" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6910569" vertical-offset="0" max-vertical-offset="833">
-          <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.5373563" vertical-offset="0" max-vertical-offset="782">
+          <caret line="11" column="77" selection-start-line="11" selection-start-column="77" selection-end-line="11" selection-end-column="77" />
           <folding>
-            <element signature="e#1093#1111#0" expanded="true" />
-            <element signature="e#1308#1326#0" expanded="true" />
+            <element signature="e#957#975#0" expanded="true" />
+            <element signature="e#1172#1190#0" expanded="true" />
           </folding>
         </state>
       </provider>
