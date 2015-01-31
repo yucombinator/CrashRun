@@ -130,7 +130,7 @@ public class MainActivity
       }
       return super.onOptionsItemSelected(item);
     }
-    public void gameToggle(View v){
+    public void gameToggle(final View v){
 
         if(paused)
         {
@@ -172,12 +172,49 @@ public class MainActivity
             // start the animation
             anim.start();
         } else {
-            //Show conformation
-            cdt.cancel();
-            paused = true;
-            roundText = (TextView) LL.findViewById(R.id.textRounds);
-            roundText.setText("Game Paused");
-            ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
+            //Show confirmation dialog
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Stop game?");
+            alertDialog.setMessage("You will lose all your progress!");
+            //alertDialog.setIcon(R.drawable.icon);
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    //Okay, then
+                    // previously invisible view
+                    View myView = findViewById(R.id.card_view);
+
+                    // get the center for the clipping circle
+                    int cx = (myView.getLeft() + myView.getRight()) / 2;
+                    int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+                    // get the final radius for the clipping circle
+                    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+
+                    // create the animator for this view (the start radius is zero)
+                    Animator anim =
+                            ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+
+                    // make the view visible and start the animation
+                    myView.setVisibility(View.VISIBLE);
+                    anim.start();
+
+                    cdt.cancel();
+                    paused = true;
+                    roundText = (TextView) LL.findViewById(R.id.textRounds);
+                    roundText.setText("Game Paused");
+                    ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+                }
+            });
+            // Remember, create doesn't show the dialog
+            alertDialog.show();
+
         }
     }
     public void showSimplePopUp(String title, String text) {
@@ -198,9 +235,15 @@ public class MainActivity
       	}
     @Override
     public void onResume(){
-    	super.onResume();
+        super.onResume();
     }
-    
+
+    //Do not exit the game if it is in progress! Let's overwrite the back button
+    @Override
+    public void onBackPressed() {
+        if(!paused) gameToggle(findViewById(R.id.fab));
+        else super.onBackPressed();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
