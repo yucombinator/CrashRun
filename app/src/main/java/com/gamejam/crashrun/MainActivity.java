@@ -373,7 +373,7 @@ public class MainActivity
 					timerText.setText("Game over!");
                     //Submit score
                     if (mHelper.mGoogleApiClient != null && mHelper.mGoogleApiClient.isConnected())
-                        Games.Leaderboards.submitScore(mHelper.mGoogleApiClient, "CgkI-uCdiKAKEAIQAQ", game.level);
+                        Games.Leaderboards.submitScore(mHelper.mGoogleApiClient, "CgkI-uCdiKAKEAIQAQ", game.scoreAdd(0));
 					setProgressBarIndeterminateVisibility(false);
 					
 					// Get instance of Vibrator from current Context
@@ -405,7 +405,7 @@ public class MainActivity
             mHelper.mGoogleApiClient.connect();
     }
 	@Override
-	public void onOrbGet()
+	public void onOrbGet(int i)
 	{
 		Log.d(TAG, ""+ a);
 		cdt.cancel();
@@ -424,6 +424,10 @@ public class MainActivity
 		 
 		// Only perform this pattern one time (-1 means "do not repeat")
 		v.vibrate(pattern, -1);
+
+        if (i == 2) {
+            a += 60*1000;
+        }
 
 
 	}
