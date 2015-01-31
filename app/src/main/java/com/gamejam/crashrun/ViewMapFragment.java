@@ -63,6 +63,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     CustomLocationSource customLocationSource;
     LatLng currentLocation;
     List<LatLng> orbs;
+    List<LatLng> specialOrbs;
     boolean GENERATED = false;
     RelativeLayout RelativeLayout;
 
@@ -75,7 +76,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     public interface onCameraListener {
         public void onCameraLocationChange(LatLng loc);
         public void onMyLocationChange(Location location);
-        public void onOrbGet();
+        public void onOrbGet(int i);
 		public void onNewRound();
     }
     
@@ -134,6 +135,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         // creates our custom LocationSource and initializes some of its members
     	customLocationSource = new CustomLocationSource(getActivity().getApplicationContext());
     	orbs = new ArrayList<LatLng>();
+        specialOrbs = new ArrayList<LatLng>();
         roundUp = RelativeLayout.findViewById(R.id.roundup);
         roundUp.setVisibility(View.GONE);
     	return RelativeLayout; 
@@ -231,6 +233,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			//List<LatLng> orbToRemove = new ArrayList<LatLng>();
 			Log.d(TAG, "" + orbs.size());
 			Iterator<LatLng> iter = orbs.iterator();
+            Iterator<LatLng> iter2 = specialOrbs.iterator();
 		while (iter.hasNext()){
 			try{
 			//TODO FIX TRY 	thing
@@ -253,13 +256,15 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 				}
 				
 				iter.remove();
-				mCallback.onOrbGet();
-				if(orbs.size() < 2){
+				mCallback.onOrbGet(0);
+				if(orbs.size() < 1){
                     game.levelAdd(1);
+
 					game.newRound();
                     showRoundScreen();
                     mCallback.onNewRound();
                     orbs.clear();
+                    specialOrbs.clear();
                     mMap.clear();
                     addOrbs();
 
@@ -273,6 +278,50 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			}
 
 		}
+
+        while (iter2.hasNext()){
+            try{
+                //TODO FIX TRY 	thing
+                LatLng orb2 = iter2.next();
+                Location LocationOrb2 = new Location("Orb");
+                LocationOrb2.setLatitude(orb2.latitude);
+                LocationOrb2.setLongitude(orb2.longitude);
+
+                Location LocationUser = new Location("User");
+                LocationUser.setLatitude(location.latitude);
+                LocationUser.setLongitude(location.longitude);
+
+                Double distance = (double) LocationOrb2.distanceTo(LocationUser);
+
+                if(distance < 15){
+
+                    if(MainActivity.DEMO){
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(getActivity().getApplicationContext(), "Close enough to orb", duration).show();
+                    }
+
+                    iter2.remove();
+                    mCallback.onOrbGet(2);
+                    if(orbs.size() < 1){
+                        game.levelAdd(1);
+                        game.newRound();
+                        showRoundScreen();
+                        mCallback.onNewRound();
+                        orbs.clear();
+                        specialOrbs.clear();
+                        mMap.clear();
+                        addOrbs();
+
+                        Log.d(TAG, "Done!!");
+                        return;
+                    }
+                    //TODO VIBRATE
+                }
+            }catch(Exception e){
+
+            }
+
+        }
 		//Re-add other pins
 		mMap.clear();
 		for(int i = 0; i < orbs.size(); i++)
@@ -280,12 +329,18 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			addMarker(orbs.get(i),0);
 			
 		}
+        for(int i = 0; i < specialOrbs.size(); i++)
+        {
+            addMarker(specialOrbs.get(i),2);
+
+        }
 	}
 	}
 	@Background
 	public void generatePoint(LatLng location){
         int addMoreOrbs;
 		orbs.clear();
+        specialOrbs.clear();
 		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext(),game);
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
@@ -300,6 +355,17 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
             if(point != null){
                 orbs.add(point);
                 addMarker(orbs.get((orbs.size()-1)),0);
+            }else{
+                Log.d(TAG, "Error generating points");
+            }
+        }
+
+        for(int i = 0; i < 1; i++)
+        {
+            LatLng point = mRPP.getRandomPoint();
+            if(point != null){
+                specialOrbs.add(point);
+                addMarker(specialOrbs.get((specialOrbs.size()-1)),2);
             }else{
                 Log.d(TAG, "Error generating points");
             }
@@ -335,8 +401,18 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		       .snippet("Go get it!")
 		       .icon(BitmapDescriptorFactory.fromResource(R.drawable.heart));
 			 UiAddMarker(MarkerOptions);
-
+			    
 			}
+
+            if(type == 2){
+                MarkerOptions MarkerOptions = new MarkerOptions()
+                        .position(Node)
+                        .title("Time Orb")
+                        .snippet("+1 Minute")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.clock2));
+                UiAddMarker(MarkerOptions);
+
+            }
 			if(type == 1){
 				 MarkerOptions MarkerOptions = new MarkerOptions()
 			       .position(Node)
@@ -345,14 +421,16 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 				 UiAddMarker(MarkerOptions);
 				}
-			
+
+
+
 		 }
 		 
 	}
 	@UiThread
 	public void UiAddMarker(MarkerOptions MarkerOptions){
 	mMap.addMarker(MarkerOptions);
-    }
+	}
 	@UiThread
 	public void UiAddOverlay(GroundOverlayOptions GroundOverlayOptions){
 	    mMap.addGroundOverlay(GroundOverlayOptions);
@@ -545,6 +623,7 @@ TODO Fix this
             showRoundScreen();
             mCallback.onNewRound();
             orbs.clear();
+            specialOrbs.clear();
             mMap.clear();
             addOrbs();
         }
@@ -563,6 +642,7 @@ TODO Fix this
 
     public void stopGame() {
         orbs.clear();
+        specialOrbs.clear();
         mMap.clear();
     }
 }
