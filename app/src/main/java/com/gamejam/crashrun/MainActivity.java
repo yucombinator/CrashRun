@@ -7,11 +7,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -28,7 +30,9 @@ import android.widget.TextView;
 
 import com.gamejam.crashrun.ViewMapFragment.onCameraListener;
 import com.gamejam.crashrun.game.Game;
+import com.gamejam.crashrun.rest.StepCounter;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -39,6 +43,7 @@ import org.androidannotations.annotations.UiThread;
 public class MainActivity
     extends BaseGameActivity
     implements onCameraListener
+
 {
 	/*TODO 
 	 * ADD CREDITS FOR GMAPS AND OSM
@@ -49,6 +54,7 @@ public class MainActivity
     static long orb_value = 60000;
 
     Game game;
+
 
 
     public static String TAG = "BathroomFinder";
@@ -152,6 +158,16 @@ public class MainActivity
             game = new Game();
             mMapFragment.make(game);
             mMapFragment.startGame();
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putLong("steps", 0);
+            editor.commit();
+
+            startService(new Intent( this, StepCounter.class));
+
+
+
             cdt = null;
             Countdown();
             paused  = false;
@@ -206,6 +222,7 @@ public class MainActivity
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Stop game?");
             alertDialog.setMessage("You will lose all your progress!");
+
             //alertDialog.setIcon(R.drawable.icon);
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 
@@ -242,6 +259,19 @@ public class MainActivity
                     roundText = (TextView) LL.findViewById(R.id.textRounds);
                     roundText.setText("Game Stopped");
                     ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
+
+
+
+                    stopService(new Intent(getApplicationContext(), StepCounter.class));
+
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    long stepsTaken=  pref.getLong("steps", 0);
+                    Log.d("steps taken", String.valueOf(stepsTaken));
+
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putLong("steps", 0);
+                    editor.commit();
                 }
             });
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
@@ -348,7 +378,7 @@ public class MainActivity
 		Log.d(TAG, "onMyLocationChange()");
 
 	}
-	
+
 	@UiThread
 	public void Countdown()
 	{		
@@ -399,9 +429,23 @@ public class MainActivity
 					v.vibrate(pattern, -1);
 
                     game.newGame();
-                    a = 60*(game.levelAdd(0))*1000;
-					
-				}
+                    stopService(new Intent(getApplicationContext(), StepCounter.class));
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    long stepsTaken=  pref.getLong("steps", 0);
+                    ///////////////////////////////STEPS TAKEN
+                    Log.d("steps taken", String.valueOf(stepsTaken));
+
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putLong("steps", 0);
+                    editor.commit();
+
+
+                    a = game.getTime();
+
+
+
+
+                }
 			}.start();
 		}
 	}
@@ -462,7 +506,11 @@ public class MainActivity
 		roundText.setText("Round " + rounds);
 		timerText.setText("5:00");
 
-        a = 60*(game.levelAdd(0))*1000;
+
+
+
+        a = game.getTime();
+
   		Countdown();
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.gamejam.crashrun.game.Game;
 import com.gamejam.crashrun.game.RandomPointProvider;
+import com.gamejam.crashrun.rest.StepCounter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -48,6 +50,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     Game game;
     private View roundUp;
     private WatchSync watchSync;
+    int closestIndex;
 
     public void make(Game game) {
         this.game = game;
@@ -175,7 +178,6 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	@Override
 	public void onResume(){
 		super.onResume();
-        watchSync = WatchSync.newInstance(getActivity());
 		Log.d(MainActivity.TAG, "onResume()");
         /* We query for the best Location Provider everytime this fragment is displayed
          * just in case a better provider might have become available since we last displayed it */
@@ -231,33 +233,64 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	}
 	
 	public void checkForNearbyItems(LatLng location) {
-		if(orbs.size() > 0){
+
+        if(orbs.size() > 0){
 			//List<LatLng> orbToRemove = new ArrayList<LatLng>();
 			Log.d(TAG, "" + orbs.size());
+
+            int orbCount = 0;
+            int timeOrb = 0;
+
+
+
+            Location LocationUser = new Location("User");
+            LocationUser.setLatitude(location.latitude);
+            LocationUser.setLongitude(location.longitude);
+
+
+            LatLng orb = orbs.get(0);
+            Location LocationOrb = new Location("Orb");
+            LocationOrb.setLatitude(orb.latitude);
+            LocationOrb.setLongitude(orb.longitude);
+            Double previousDistance = (double) LocationOrb.distanceTo(LocationUser);
+
+            for (int i  = 0; i < orbs.size(); i++) {
+                orb = orbs.get(i);
+
+                LocationOrb.setLatitude(orb.latitude);
+                LocationOrb.setLongitude(orb.longitude);
+
+                Double distance = (double) LocationOrb.distanceTo(LocationUser);
+                if (distance <= previousDistance) {
+                    closestIndex = i;
+                }
+            }
+
 			Iterator<LatLng> iter = orbs.iterator();
             Iterator<LatLng> iter2 = specialOrbs.iterator();
+        orbCount = -1;
 		while (iter.hasNext()){
 			try{
 			//TODO FIX TRY 	thing
-			LatLng orb = iter.next();
-			Location LocationOrb = new Location("Orb");
+			orb = iter.next();
+            orbCount += 1;
 			LocationOrb.setLatitude(orb.latitude);
 			LocationOrb.setLongitude(orb.longitude);
 			
-			Location LocationUser = new Location("User");
+
 			LocationUser.setLatitude(location.latitude);
 			LocationUser.setLongitude(location.longitude);
 
 			Double distance = (double) LocationOrb.distanceTo(LocationUser);
-			
+
 			if(distance < 15){
 
 				if(MainActivity.DEMO){
 				int duration = Toast.LENGTH_SHORT;
-				Toast.makeText(getActivity().getApplicationContext(), "Close enough to orb", duration).show();
-				}
-				
-				iter.remove();
+                    Toast.makeText(getActivity().getApplicationContext(), "Close enough to orb", duration).show();
+
+                }
+                iter.remove();
 				mCallback.onOrbGet(0);
 				if(orbs.size() < 1){
                     game.levelAdd(1);
@@ -289,7 +322,6 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                 LocationOrb2.setLatitude(orb2.latitude);
                 LocationOrb2.setLongitude(orb2.longitude);
 
-                Location LocationUser = new Location("User");
                 LocationUser.setLatitude(location.latitude);
                 LocationUser.setLongitude(location.longitude);
 
@@ -347,11 +379,12 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
         addMoreOrbs = ((game.levelAdd(0)-1)/2);
-        Log.d("game add more orbs", String.valueOf(5+ addMoreOrbs));
+        Log.d("game add more orbs", String.valueOf(4+ addMoreOrbs));
         if (addMoreOrbs > 10) {
             addMoreOrbs =10;
         }
-        for(int i = 0; i < (5 + addMoreOrbs); i++)
+
+        for(int i = 0; i < (4 + addMoreOrbs); i++)
         {
             LatLng point = mRPP.getRandomPoint();
             if(point != null){
@@ -361,8 +394,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                 Log.d(TAG, "Error generating points");
             }
         }
-
-        for(int i = 0; i < 1; i++)
+        int specialOrbsAdded = 1+ game.levelAdd(0)/4;
+        for(int i = 0; i < specialOrbsAdded; i++)
         {
             LatLng point = mRPP.getRandomPoint();
             if(point != null){
@@ -415,6 +448,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                 UiAddMarker(MarkerOptions);
 
             }
+
 			if(type == 1){
 				 MarkerOptions MarkerOptions = new MarkerOptions()
 			       .position(Node)
@@ -617,6 +651,9 @@ TODO Fix this
     public void startGame() {
 		// TODO Auto-generated method stub
         game.newGame();
+
+
+
 		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
 		waitingLayout.setVisibility(View.GONE);	
 		

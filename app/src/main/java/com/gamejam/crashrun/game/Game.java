@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import com.gamejam.crashrun.MainActivity;
 import com.google.android.gms.games.achievement.Achievements;
 
+import java.util.Random;
+
 /**
  * Created by David on 2015-01-30.
  */
@@ -34,6 +36,33 @@ public class Game {
         Log.d("game score", String.valueOf(score));
 
         return score;
+
+    }
+
+    public long getTime() {
+
+        int addMoreOrbs = ((level-1)/2);
+
+        if (addMoreOrbs > 10) {
+            addMoreOrbs = 10;
+        }
+        int totalOrbs = 4 + addMoreOrbs;
+
+        Log.d("number of total orbs", String.valueOf(totalOrbs));
+
+
+        double toAdd = (level*1.0)/10000;
+        if (toAdd >= 0.008) {
+            toAdd = 0.008;
+        }
+        double totalRadius = (toAdd + 0.002)/0.002 * 120;
+
+        Random rand = new Random();
+
+        int n = rand.nextInt(20) + 1;
+
+
+        return (long)(1000*(300+n+totalRadius*totalOrbs/4));
 
     }
 
