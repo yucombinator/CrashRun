@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.gamejam.crashrun.game.Game;
 import com.gamejam.crashrun.game.RandomPointProvider;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,7 +43,11 @@ import org.androidannotations.annotations.UiThread;
 
 @EFragment
 public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChangeListener{
+    Game game;
+    public void make(Game game) {
+        this.game = game;
 
+    }
 	public static final String TAG = "CRASHRUN";
 	public Location userLocation;
 	SupportMapFragment mMapFragment;
@@ -57,7 +62,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     boolean GENERATED = false;
     RelativeLayout RelativeLayout;
 
-	
+
+
     /**
      * An interface to pass data to the host Activity.
      * @author Icechen1
@@ -251,8 +257,15 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 				iter.remove();
 				mCallback.onOrbGet();
 				if(orbs.size() < 2){
-					newRound();
-					Log.d(TAG, "Done!!");
+                    game.levelAdd(1);
+
+					game.newRound();
+                    mCallback.onNewRound();
+                    orbs.clear();
+                    mMap.clear();
+                    addOrbs();
+
+                    Log.d(TAG, "Done!!");
 					return;
 				}
 				//TODO VIBRATE
@@ -274,7 +287,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	@Background
 	public void generatePoint(LatLng location){
 		orbs.clear();
-		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext());
+		RandomPointProvider mRPP = new RandomPointProvider(location, RandomPointProvider.Range.SHORT,getActivity().getApplicationContext(),game);
 		//addPoly(mRPP);
 		//orbs = new ArrayList<LatLng>();
 		for(int i = 0; i < 10; i++)
@@ -513,26 +526,22 @@ TODO Fix this
 		generatePoint(last_location);
 	}
 	
-	public void newRound() {
-		// Start new round. Reset time and add orbs
-		if (MainActivity.cdt != null) {
-			MainActivity.a = 300000;
-			MainActivity.cdt.cancel();
-		}
-		mCallback.onNewRound();
-		orbs.clear();
-		mMap.clear();
 
-		addOrbs();
-	}
     public void startGame() {
 		// TODO Auto-generated method stub
+        game.newGame();
 		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
 		waitingLayout.setVisibility(View.GONE);	
 		
 		if(orbs.size() < 1){
-			newRound();
-		}
+            game.newRound();
+            mCallback.onNewRound();
+            orbs.clear();
+            mMap.clear();
+            addOrbs();
+
+
+        }
 	}
 	
 }
