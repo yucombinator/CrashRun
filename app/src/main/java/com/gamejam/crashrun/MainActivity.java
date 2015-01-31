@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.gamejam.crashrun.ViewMapFragment.onCameraListener;
+import com.gamejam.crashrun.game.Game;
 import com.google.android.gms.maps.model.LatLng;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -40,10 +41,13 @@ public class MainActivity
 	 * TODO one point per round?
 	 */
 	
-    static long a = 300000; //time remaining
+    public static long a = 300000; //time remaining
     static long orb_value = 60000;
 
-	public static String TAG = "BathroomFinder";
+    Game game = new Game();
+
+
+    public static String TAG = "BathroomFinder";
 //	static ArrayList <OSMNode> allTapItem = new ArrayList<OSMNode>();
 //	static ArrayList <OSMNode> allToiletItem = new ArrayList<OSMNode>();
 //	static ArrayList <OSMNode> allFoodItem = new ArrayList<OSMNode>();
@@ -52,7 +56,7 @@ public class MainActivity
     Fragment mListFragment;
     TextView timerText;
     TextView roundText;
-    static CountDownTimer cdt;
+    public static CountDownTimer cdt;
 
     int rounds = 0;
 	static boolean paused = false;
@@ -123,7 +127,6 @@ public class MainActivity
     	  else{
     		  DEMO = false;
     	  }
-
       }
       
 
@@ -202,9 +205,12 @@ public class MainActivity
     	configureActionBar();
     	FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mMapFragment = getSupportFragmentManager().findFragmentByTag("map");
+
 		if (mMapFragment == null) {
 			// If not, instantiate and add it to the activity
-			mMapFragment = new ViewMapFragment_();
+            ViewMapFragment mMapFragment = new ViewMapFragment_();
+            mMapFragment.make(game);
+
 			ft.add(R.id.containerFrag, mMapFragment, "map").commit();
 		} else {
 			// If it exists, simply attach it in order to show it
@@ -325,7 +331,7 @@ public class MainActivity
 				{
 					long s = 0;
 					long m = 0;
-					
+                    game.scoreAdd(-5);
 					//timerText.setText("" + millisUntilFinished / 1000);
 					a = millisUntilFinished;
 					//Log.d(TAG, "&" + millisUntilFinished);
@@ -338,7 +344,7 @@ public class MainActivity
 					timerText.setText("" + m + ":" + sec);
 					setProgressBarIndeterminateVisibility(true); 
 				}
-			
+
 				public void onFinish() 
 				{
 					timerText.setText("Game over!");
@@ -369,6 +375,7 @@ public class MainActivity
 		cdt.cancel();
 		cdt = null;
 		a += orb_value;
+        game.scoreAdd(100);
 		Countdown();
 		// Get instance of Vibrator from current Context
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -382,14 +389,18 @@ public class MainActivity
 		 
 		// Only perform this pattern one time (-1 means "do not repeat")
 		v.vibrate(pattern, -1);
+
+
 	}
 
 	@Override
 	public void onNewRound() {
 		// TODO Auto-generated method stub
-		rounds = rounds + 1;
+
+		rounds = game.levelAdd(0);
 		Log.d(TAG, "rounds: " + rounds);
         timerText = (TextView) LL.findViewById(R.id.textTimeronTheActionBar);
+
         roundText = (TextView) LL.findViewById(R.id.textRounds);
         
 		roundText.setText("Round " + rounds);
