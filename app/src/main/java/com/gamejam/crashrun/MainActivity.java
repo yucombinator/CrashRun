@@ -441,6 +441,9 @@ public class MainActivity
 
 				public void onFinish() 
 				{
+
+
+
                     watchSync.sendUpdate(null,null,null, "00:00",(byte)1);
 					timerText.setText("Game over!");
                     //Submit score
@@ -480,6 +483,7 @@ public class MainActivity
 
 
                     a = game.getTime();
+
 
 
 

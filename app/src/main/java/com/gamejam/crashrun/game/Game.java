@@ -81,7 +81,7 @@ public class Game {
 
         Random rand = new Random();
 
-        int n = rand.nextInt(20) + 1;
+        int n = rand.nextInt(100) + 1;
 
 
         return (long)(1000*(300+n+totalRadius*totalOrbs/4));

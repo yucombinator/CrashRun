@@ -10,7 +10,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:padding="2dip"
-		android:src="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
 		android:contentDescription="@string/icon"/>
 
 	<LinearLayout
