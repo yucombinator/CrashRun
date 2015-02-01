@@ -37,7 +37,7 @@ public class Game {
 
     public int scoreAdd(int scoreV) {
         score += scoreV;
-        Log.d("game score", String.valueOf(score));
+
 
         return score;
 
