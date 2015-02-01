@@ -429,8 +429,8 @@ public class MainActivity
 					m = millisUntilFinished/60000;
 					s = millisUntilFinished/1000 - m * 60;
 					String sec = String.valueOf(s);
-					if (s == 0){
-						sec = "00";
+					if (s < 10){
+						sec = "0" + s;
 					}
 					timerText.setText("" + m + ":" + sec);
 					setProgressBarIndeterminateVisibility(true);
