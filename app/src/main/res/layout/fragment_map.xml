@@ -51,5 +51,5 @@
 </LinearLayout>
 </LinearLayout>
     <include layout="@layout/round_up"
-        android:id="@+id/" />
+        />
     </RelativeLayout>

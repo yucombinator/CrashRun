@@ -291,12 +291,14 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
             Double closestLong;
             if (previousDistance <= previousDistance2) {
                 closestLat = orbs.get(closestIndex).latitude;
-                closestLong = orbs.get(closestIndex).latitude;
+                closestLong = orbs.get(closestIndex).longitude;
             }
             else {
                 closestLat = specialOrbs.get(closestIndex2).latitude;
-                closestLong = specialOrbs.get(closestIndex2).latitude;
+                closestLong = specialOrbs.get(closestIndex2).longitude;
             }
+            Log.d("Closest Lat:", String.valueOf(closestLat));
+            Log.d("Closest Long:",String.valueOf(closestLong));
 
 
 
@@ -645,7 +647,7 @@ TODO Fix this
 				if(!MainActivity.paused){
 				checkForNearbyItems(last_location);
 				}
-            watchSync.sendUpdate(last_location,null,null,null,(byte)0);
+            //watchSync.sendUpdate(last_location,null,null,null,(byte)0);
 	    }
 
 
