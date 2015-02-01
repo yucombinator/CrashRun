@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
 
-                android:text="CrashCourse"
+                android:text="SpeedRun"
                 android:textColor="@color/accent"
                 android:layout_gravity="center_horizontal"
                 android:typeface="serif"

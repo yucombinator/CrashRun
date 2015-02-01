@@ -3,6 +3,7 @@ package com.gamejam.crashrun;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 
 import com.getpebble.android.kit.PebbleKit;
@@ -58,6 +59,7 @@ public class WatchSync {
                 Log.i("CrashCourse", "Pebble disconnected!");
             }
         };
+
         PebbleKit.registerPebbleDisconnectedReceiver(c, disconnectedReceiver);
         wear_connected = true;
     }
@@ -72,17 +74,18 @@ public class WatchSync {
     public void sendUpdate(LatLng loc_user, LatLng loc_orb, String address, String time, byte vib){
         if(pebble_connected){
             PebbleDictionary data = new PebbleDictionary();
-            if(loc_user != null){
-                // Add a key of 0, for the user's longitude
-                data.addInt32(0, (int)loc_user.longitude*100000);
-                // Add a key of 1, for the user's latitude
-                data.addInt32(1, (int)loc_user.latitude*100000);
-            }
-            if(loc_orb != null) {
-                // Add a key of 2, for the orb's longitude
-                data.addInt32(2, (int)loc_orb.longitude*100000);
-                // Add a key of 3, for the orb's latitude
-                data.addInt32(3, (int)loc_orb.latitude*100000);
+            if(loc_user != null && loc_orb != null){
+                // Add a key of 0, for the distance
+                float[] results = new float[3];
+                Location.distanceBetween(loc_user.latitude,loc_user.longitude,loc_orb.latitude,loc_orb.longitude, results);
+                Log.d("Test",loc_user.latitude+ " " +loc_user.longitude+ " " +loc_orb.latitude+ " " +loc_orb.longitude);
+                Log.d("Test",results[0] + " " + results[1]+ " " + results[2]);
+                Log.d("Test", (int)results[0] + " " + (int)results[1]+ " " + (int) results[2]);
+                data.addString(0, String.format("%.2f", results[0]) + " meters"); //DISTANCE
+                if(results.length>=3)
+                    data.addInt32(1, (int)results[2]); //BEARING
+                else
+                    data.addInt32(1, (int)results[1]); //BEARING
             }
             if(address != null)
             // Add a key of 4, and a string for the street.
@@ -94,7 +97,7 @@ public class WatchSync {
 
             PebbleKit.sendDataToPebble(c, PEBBLE_APP_UUID, data);
         }
-        if(wear_connected){
+        if(false){
             mTeleportClient.sendMessage("startActivity", null);
             if(loc_user != null){
                 mTeleportClient.syncString("myloc_lat", String.valueOf(loc_user.longitude));

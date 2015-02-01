@@ -52,6 +52,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     private WatchSync watchSync;
     int closestIndex;
     int closestIndex2;
+    private double closestLat;
+    private double closestLong;
 
 
     public void make(Game game) {
@@ -146,6 +148,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         specialOrbs = new ArrayList<LatLng>();
         roundUp = RelativeLayout.findViewById(R.id.roundup);
         roundUp.setVisibility(View.GONE);
+        watchSync = WatchSync.newInstance(getActivity());
+        watchSync.onStart();
     	return RelativeLayout; 
     }
     @Override
@@ -229,6 +233,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 		}	
 		if(!MainActivity.paused && MainActivity.DEMO){
 			checkForNearbyItems(location);
+
 		}
 		
 	}
@@ -299,6 +304,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                 closestLat = specialOrbs.get(closestIndex2).latitude;
                 closestLong = specialOrbs.get(closestIndex2).longitude;
             }
+            Log.d("SOME FKIN BUG",closestLat + " " + closestLong);
+            watchSync.sendUpdate(location,new LatLng(closestLat,closestLong),null,null,(byte)0);
             Log.d("Closest Lat:", String.valueOf(closestLat));
             Log.d("Closest Long:",String.valueOf(closestLong));
 
@@ -318,8 +325,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 
 			Double distance = (double) LocationOrb.distanceTo(LocationUser);
 
-			if(distance < 15){
-
+			if(distance < 30){
+                watchSync.sendUpdate(location,new LatLng(closestLat,closestLong),null,null,(byte)1);
 				if(MainActivity.DEMO){
 				int duration = Toast.LENGTH_SHORT;
                     Toast.makeText(getActivity().getApplicationContext(), "Close enough to orb", duration).show();
@@ -650,6 +657,7 @@ TODO Fix this
 				checkForNearbyItems(last_location);
 				}
             //watchSync.sendUpdate(last_location,null,null,null,(byte)0);
+
 	    }
 
 
