@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static Window *main_window, *calibration_window;
-static TextLayer *output_layer, *timer_layer, *cardinal_text_layer, *distance_text_layer;
-//BitmapLayer *direction_arrow;
+static Window *main_window;
+static TextLayer *timer_layer, *cardinal_text_layer, *distance_text_layer;
 static Layer *path_layer;
 
 static const GPathInfo ARROW_PATH_POINTS = {
@@ -35,7 +34,7 @@ static int path_angle_add(int angle) {
   return path_angle = (path_angle + angle) % 360;
 }
 
-// Remove in final version *********************************************
+// Buttons
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   // Rotate the path counter-clockwise
@@ -54,59 +53,11 @@ static void config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
-// ***********************************************************************
+// Rotation
 
-// App communication
-
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-
-  Tuple *t = dict_read_first(iterator);
-
-  while (t != NULL) {
-    
-    static char distance[64], timer[64], angle[64];
-    
-    switch (t->key) {
-      case 0:
-        snprintf(distance, sizeof(distance), "%s", t->value->cstring);
-        text_layer_set_text(distance_text_layer, distance);
-        break;
-      case 1:
-        snprintf(angle, sizeof(angle), "%s", t->value->cstring);
-// THIS NEEDS FIXING        
-        rotate_arrow(angle);
-        break;
-      case 5:
-        snprintf(timer, sizeof(timer), "%s", t->value->cstring);
-        text_layer_set_text(timer_layer, timer);
-        break;
-      case 6:
-        if(t->value->int8){
-          vibes_long_pulse();
-        }
-        break;
-    }
-    
-    t = dict_read_next(iterator);
-    
-  }
-}
-
-void rotate_arrow(static int angle){
+void rotate_arrow(const int angle){
   
-  if ((angle > 337.5 && angle <= 360) || (angle >= 0 && angle <= 22.5)){
-    path_angle = 0;
-    text_layer_set_text(cardinal_text_layer, "North");
-  } else if (angle > 22.5 && angle <= 67.5){
-    path_angle = 45;
-    text_layer_set_text(cardinal_text_layer, "Northwest");
-  } else if (angle > 67.5 && angle <= 112.5){
-    path_angle = 90;
-    text_layer_set_text(cardinal_text_layer, "East");
-  } else if (angle > 112.5 && angle <= 157.5){
-    path_angle = 135;
-    text_layer_set_text(cardinal_text_layer, "Southeast");
-  } else if (angle > 157.5 && angle <= 202.5){
+  if (angle > 157.5 && angle <= 202.5){
     path_angle = 180;
     text_layer_set_text(cardinal_text_layer, "South");
   } else if (angle > 202.5 && angle <= 247.5){
@@ -118,22 +69,58 @@ void rotate_arrow(static int angle){
   } else if (angle > 292.5 && angle <= 337.5){
     path_angle = 315;
     text_layer_set_text(cardinal_text_layer, "Northwest");
+  } else if ((angle > 337.5 && angle <= 360) || (angle >= 0 && angle <= 22.5)){
+    path_angle = 0;
+    text_layer_set_text(cardinal_text_layer, "North");
+  } else if (angle > 22.5 && angle <= 67.5){
+    path_angle = 45;
+    text_layer_set_text(cardinal_text_layer, "Northeast");
+  } else if (angle > 67.5 && angle <= 112.5){
+    path_angle = 90;
+    text_layer_set_text(cardinal_text_layer, "East");
+  } else if (angle > 112.5 && angle <= 157.5){
+    path_angle = 135;
+    text_layer_set_text(cardinal_text_layer, "Southeast");
+  } 
+}
+
+// App communication
+
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+
+  Tuple *t = dict_read_first(iterator);
+
+  while (t != NULL) {
+    
+    static char distance[64], timer[64];
+    
+    switch (t->key) {
+      case 0:
+        snprintf(distance, sizeof(distance), "%s", t->value->cstring);
+        text_layer_set_text(distance_text_layer, distance);
+        break;
+      case 1:
+        //snprintf(angle, sizeof(angle), "%s", (int)t->value->int32;
+        //int result = atoi(angle);
+        rotate_arrow((int)t->value->int32);
+        break;
+      case 5:
+        snprintf(timer, sizeof(timer), "%s", t->value->cstring);
+        text_layer_set_text(timer_layer, timer);
+        break;
+      case 6:
+        if((t->value->int8)>0){
+          vibes_long_pulse();
+        }
+        break;
+    }
+    
+    t = dict_read_next(iterator);
+    
   }
 }
 
-// Windows
-
-static void calibration_window_load(Window *window) {
-  
-  Layer *window_layer = window_get_root_layer(window);
-  GRect window_bounds = layer_get_bounds(window_layer);
-  
-}
-
-static void calibration_window_unload(Window *window) {
-  
-}
-
+// Window
 
 static void main_window_load(Window *window) {
   
@@ -177,7 +164,6 @@ static void main_window_load(Window *window) {
   current_path = arrow_path;
   gpath_move_to(current_path, GPoint(window_bounds.size.w/2, window_bounds.size.h/2 - 10));
             
-  rotate_arrow(angle);
 }
 
 static void main_window_unload(Window *window) {
@@ -195,29 +181,18 @@ void handle_init(void) {
   
   // Create Windows
   main_window = window_create();
-  calibration_window = window_create();
-  
-  window_set_window_handlers(calibration_window, (WindowHandlers) {
-    .load = calibration_window_load,
-    .unload = calibration_window_unload
-  });  
-  
-  window_stack_push(calibration_window, true);
-  window_set_click_config_provider(calibration_window, config_provider);
   
   window_set_window_handlers(main_window, (WindowHandlers) {
     .load = main_window_load,
     .unload = main_window_unload
   });
   
-//  window_set_click_config_provider(main_window, click_config_provider);
   window_stack_push(main_window, true);
   window_set_click_config_provider(main_window, config_provider);
   
 }
 
 void handle_deinit(void) {
-  window_destroy(calibration_window);
   window_destroy(main_window);
 }
 
