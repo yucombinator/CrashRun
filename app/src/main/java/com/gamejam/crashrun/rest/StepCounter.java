@@ -90,7 +90,7 @@ public class StepCounter extends Service implements SensorEventListener
         // TODO Auto-generated method stub
         super.onStart(intent, startId);
 
-        Toast.makeText(this, "The new Service was Created", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "The new Service was Created", Toast.LENGTH_LONG).show();
 
         sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -170,7 +170,7 @@ public class StepCounter extends Service implements SensorEventListener
     public void onDestroy() {
         // TODO Auto-generated method stub
         sensorManager.unregisterListener(this);
-        Toast.makeText(this, "The Service was destroyed", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "The Service was destroyed", Toast.LENGTH_LONG).show();
         super.onDestroy();
     }
 

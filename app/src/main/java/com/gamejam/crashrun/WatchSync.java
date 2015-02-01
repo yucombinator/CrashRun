@@ -38,6 +38,7 @@ public class WatchSync {
         return new WatchSync(c);
     }
     protected void onStart() {
+        mTeleportClient = new TeleportClient(c);
         mTeleportClient.connect();
         //Check if pebble is active
         pebble_connected = PebbleKit.isWatchConnected(c);
@@ -62,6 +63,7 @@ public class WatchSync {
 
         PebbleKit.registerPebbleDisconnectedReceiver(c, disconnectedReceiver);
         wear_connected = true;
+        promptAppStart();
     }
 
     protected void onStop() {
@@ -78,9 +80,9 @@ public class WatchSync {
                 // Add a key of 0, for the distance
                 float[] results = new float[3];
                 Location.distanceBetween(loc_user.latitude,loc_user.longitude,loc_orb.latitude,loc_orb.longitude, results);
-                Log.d("Test",loc_user.latitude+ " " +loc_user.longitude+ " " +loc_orb.latitude+ " " +loc_orb.longitude);
-                Log.d("Test",results[0] + " " + results[1]+ " " + results[2]);
-                Log.d("Test", (int)results[0] + " " + (int)results[1]+ " " + (int) results[2]);
+               // Log.d("Test",loc_user.latitude+ " " +loc_user.longitude+ " " +loc_orb.latitude+ " " +loc_orb.longitude);
+               // Log.d("Test",results[0] + " " + results[1]+ " " + results[2]);
+               // Log.d("Test", (int)results[0] + " " + (int)results[1]+ " " + (int) results[2]);
                 data.addString(0, String.format("%.2f", results[0]) + " meters"); //DISTANCE
                 if(results.length>=3)
                     data.addInt32(1, (int)results[2]); //BEARING
@@ -97,8 +99,7 @@ public class WatchSync {
 
             PebbleKit.sendDataToPebble(c, PEBBLE_APP_UUID, data);
         }
-        if(false){
-            mTeleportClient.sendMessage("startActivity", null);
+        if(wear_connected){
             if(loc_user != null){
                 mTeleportClient.syncString("myloc_lat", String.valueOf(loc_user.longitude));
                 mTeleportClient.syncString("myloc_lon", String.valueOf(loc_user.latitude));
@@ -107,11 +108,13 @@ public class WatchSync {
                 mTeleportClient.syncString("orb_lat", String.valueOf(loc_orb.longitude));
                 mTeleportClient.syncString("orb_lon", String.valueOf(loc_orb.latitude));
             }
-            if(address != null)
-                mTeleportClient.syncString("address", address);
             if(time != null)
                 mTeleportClient.syncString("timer", time);
+            mTeleportClient.syncByte("vib", vib);
         }
 
+    }
+    public void promptAppStart(){
+        if(wear_connected)mTeleportClient.sendMessage("startActivity", null);
     }
 }
