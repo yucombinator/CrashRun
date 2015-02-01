@@ -240,8 +240,7 @@ public class MainActivity
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Stop game?");
-            alertDialog.setMessage("You will lose all your progress!\n"+"Distance:   " + dist + " meters\n"
-                    + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)speed + " m/s\n");
+
 
 
             //alertDialog.setIcon(R.drawable.icon);
@@ -432,6 +431,9 @@ public class MainActivity
 					if (s == 0){
 						sec = "00";
 					}
+                    if (s<10) {
+                        sec = "0"+String.valueOf(s);
+                    }
 					timerText.setText("" + m + ":" + sec);
 					setProgressBarIndeterminateVisibility(true);
                     watchSync.sendUpdate(null,null,null,"" + m + ":" + sec,(byte)0);
