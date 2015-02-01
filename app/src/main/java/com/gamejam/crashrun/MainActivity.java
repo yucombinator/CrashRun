@@ -568,65 +568,43 @@ public class MainActivity
 		Countdown();
 		// Get instance of Vibrator from current Context
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		 
 		int dot = 300;
 		int short_gap = 100;    // Length of Gap Between dots/dashes
 		long[] pattern = {
 		    0,  // Start immediately
 		    dot, short_gap, dot
 		};
-		 
 		// Only perform this pattern one time (-1 means "do not repeat")
 		v.vibrate(pattern, -1);
 
         if (i == 2) {
             a += 60*1000;
         }
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
         elapsedSeconds = tDelta / 1000.0;
-
-
         long stepsTaken=  pref.getLong("steps", 0);
         double distTravelled = stepsTaken*1.75;
         double averageSpeed = distTravelled*1.0/elapsedSeconds;
-
         game.stats(distTravelled, stepsTaken, averageSpeed);
-
-
-
-
-
 	}
 
 	@Override
 	public void onNewRound() {
 		// TODO Auto-generated method stub
-
 		rounds = game.levelAdd(0);
 		Log.d(TAG, "rounds: " + rounds);
         timerText = (TextView) LL.findViewById(R.id.textTimeronTheActionBar);
-
         roundText = (TextView) LL.findViewById(R.id.textRounds);
-        
 		roundText.setText("Round " + rounds);
 		timerText.setText("5:00");
-
-
-
-
         a = game.getTime();
-
   		Countdown();
-
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
         elapsedSeconds = tDelta / 1000.0;
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-
         long stepsTaken=  pref.getLong("steps", 0);
         double distTravelled = stepsTaken*1.75;
         double averageSpeed = distTravelled*1.0/elapsedSeconds;
@@ -634,11 +612,6 @@ public class MainActivity
         Log.d("distTravelled", String.valueOf(distTravelled));
         Log.d("averageSpeed", String.valueOf(averageSpeed));
         game.stats(distTravelled, stepsTaken, averageSpeed);
-
-
-
-
-
 
 	}
 

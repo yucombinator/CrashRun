@@ -54,6 +54,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
     int closestIndex2;
     private double closestLat;
     private double closestLong;
+    private String provider;
 
 
     public void make(Game game) {
@@ -307,7 +308,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
             Log.d("SOME FKIN BUG",closestLat + " " + closestLong);
             watchSync.sendUpdate(location,new LatLng(closestLat,closestLong),null,null,(byte)0);
             Log.d("Closest Lat:", String.valueOf(closestLat));
-            Log.d("Closest Long:",String.valueOf(closestLong));
+            Log.d("Closest Long:", String.valueOf(closestLong));
 
 
 
@@ -412,6 +413,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 	}
 	@Background
 	public void generatePoint(LatLng location){
+        if(provider == null || !provider.equals("gps")) return;
         int addMoreOrbs;
 		orbs.clear();
         specialOrbs.clear();
@@ -488,7 +490,6 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
                 UiAddMarker(MarkerOptions);
 
             }
-
 			if(type == 1){
 				 MarkerOptions MarkerOptions = new MarkerOptions()
 			       .position(Node)
@@ -497,9 +498,6 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 			       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 				 UiAddMarker(MarkerOptions);
 				}
-
-
-
 		 }
 		 
 	}
@@ -626,6 +624,7 @@ TODO Fix this
 	         * (this ensures that my-location layer will set the blue dot at the new/received location) */
 	    	Log.d(TAG, "Got "+ location.getProvider());
 			last_location = new LatLng(location.getLatitude(), location.getLongitude());
+            provider = location.getProvider();
 	    	//Remove the loading splash screen
 	    	if(location.getProvider().equals("gps")){
                 LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
@@ -691,13 +690,22 @@ TODO Fix this
 
     public void startGame() {
 		// TODO Auto-generated method stub
-        game.newGame();
+        if(provider != null && provider.equals("gps")){
+            game.newGame();
+        }else{
+            LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
+            waitingLayout.setVisibility(View.VISIBLE);
 
+            //retry
+            Handler h = new Handler();
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startGame();
+                }
+            },1000);
 
-
-		LinearLayout waitingLayout = (LinearLayout) RelativeLayout.findViewById(R.id.waiting);
-		waitingLayout.setVisibility(View.GONE);	
-		
+        }
 		if(orbs.size() < 1){
             game.newRound();
             showRoundScreen();
