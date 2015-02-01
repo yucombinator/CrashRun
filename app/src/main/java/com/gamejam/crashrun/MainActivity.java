@@ -391,7 +391,7 @@ public class MainActivity
 				{
 					long s = 0;
 					long m = 0;
-                    game.scoreAdd(-5);
+                    game.scoreAdd(-1);
 					//timerText.setText("" + millisUntilFinished / 1000);
 					a = millisUntilFinished;
 					//Log.d(TAG, "&" + millisUntilFinished);
