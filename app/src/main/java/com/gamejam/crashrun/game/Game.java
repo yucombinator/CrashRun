@@ -15,11 +15,15 @@ import java.util.Random;
 public class Game {
     public int level;
     public int score;
-    private int time;
+    private double dist;
+    private double steps;
+    private double speed;
     public void newGame() {
         level = 1;
         score = 0;
-        time = 0;
+        dist = 0;
+        steps = 0;
+        speed = 0;
         Log.d("game lvl", String.valueOf(level));
     }
 
@@ -36,6 +40,24 @@ public class Game {
         Log.d("game score", String.valueOf(score));
 
         return score;
+
+    }
+
+    public double[] stats(double timeV, double stepsV, double speedV) {
+        if (timeV == 0 && stepsV == 0 && speedV == 0) {
+            double[] array = {dist, steps, speed};
+            return array;
+        }
+        else {
+
+            dist = timeV;
+            steps = stepsV;
+            speed = speedV;
+            double[] array = {dist, steps, speed};
+            return array;
+
+
+        }
 
     }
 

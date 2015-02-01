@@ -75,6 +75,8 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
 
 
 
+
+
     /**
      * An interface to pass data to the host Activity.
      * @author Icechen1
@@ -700,7 +702,17 @@ TODO Fix this
 	}
 
     private void showRoundScreen() {
-        ((TextView)roundUp.findViewById(R.id.roundup_text)).setText("Round " + game.level);
+        ((TextView)roundUp.findViewById(R.id.roundup_text)).setText("Round " + game.levelAdd(0));
+
+
+        double[] stats = game.stats(0,  0, 0);
+        double dist = stats[0];
+        double steps = stats[1];
+        double speed = stats[2];
+
+
+        ((TextView)roundUp.findViewById(R.id.stats)).setText("Distance:   " + dist + " meters\n"
+        + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)(speed)+ " m/s\n");
         roundUp.setVisibility(View.VISIBLE);
         //hide again
         Handler h = new Handler();

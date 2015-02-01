@@ -54,8 +54,8 @@ public class MainActivity
     static long orb_value = 60000;
 
     Game game;
-
-
+    long tStart;
+    double elapsedSeconds;
 
     public static String TAG = "BathroomFinder";
 	
@@ -158,6 +158,7 @@ public class MainActivity
             game = new Game();
             mMapFragment.make(game);
             mMapFragment.startGame();
+            tStart = System.currentTimeMillis();
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
@@ -219,9 +220,29 @@ public class MainActivity
             }
         } else {
             //Show confirmation dialog
+
+            long tEnd = System.currentTimeMillis();
+            long tDelta = tEnd - tStart;
+            elapsedSeconds = tDelta / 1000.0;
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+            long stepsTaken=  pref.getLong("steps", 0);
+            double distTravelled = stepsTaken*1.75;
+            double averageSpeed = distTravelled*1.0/elapsedSeconds;
+
+
+
+            double[] stats = game.stats(distTravelled, stepsTaken, averageSpeed);
+            double dist = stats[0];
+            double steps = stats[1];
+            double speed = stats[2];
+
+
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Stop game?");
-            alertDialog.setMessage("You will lose all your progress!");
+            alertDialog.setMessage("You will lose all your progress!\n"+"Distance:   " + dist + " meters\n"
+                    + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)speed + " m/s\n");
+
 
             //alertDialog.setIcon(R.drawable.icon);
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -264,9 +285,19 @@ public class MainActivity
 
                     stopService(new Intent(getApplicationContext(), StepCounter.class));
 
+                    long tEnd = System.currentTimeMillis();
+                    long tDelta = tEnd - tStart;
+                    elapsedSeconds = tDelta / 1000.0;
+
 
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+
                     long stepsTaken=  pref.getLong("steps", 0);
+                    double distTravelled = stepsTaken*1.75;
+                    double averageSpeed = distTravelled*1.0/elapsedSeconds;
+
+                    game.stats(distTravelled, stepsTaken, averageSpeed);
+
                     Log.d("steps taken", String.valueOf(stepsTaken));
 
                     SharedPreferences.Editor editor = pref.edit();
@@ -428,11 +459,17 @@ public class MainActivity
 					// Only perform this pattern one time (-1 means "do not repeat")
 					v.vibrate(pattern, -1);
 
+
+                    long tEnd = System.currentTimeMillis();
+                    long tDelta = tEnd - tStart;
+                    elapsedSeconds = tDelta / 1000.0;
+
+
                     game.newGame();
                     stopService(new Intent(getApplicationContext(), StepCounter.class));
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     long stepsTaken=  pref.getLong("steps", 0);
-                    ///////////////////////////////STEPS TAKEN
+
                     Log.d("steps taken", String.valueOf(stepsTaken));
 
                     SharedPreferences.Editor editor = pref.edit();
@@ -490,6 +527,21 @@ public class MainActivity
             a += 60*1000;
         }
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        long tEnd = System.currentTimeMillis();
+        long tDelta = tEnd - tStart;
+        elapsedSeconds = tDelta / 1000.0;
+
+
+        long stepsTaken=  pref.getLong("steps", 0);
+        double distTravelled = stepsTaken*1.75;
+        double averageSpeed = distTravelled*1.0/elapsedSeconds;
+
+        game.stats(distTravelled, stepsTaken, averageSpeed);
+
+
+
+
 
 	}
 
@@ -512,6 +564,26 @@ public class MainActivity
         a = game.getTime();
 
   		Countdown();
+
+        long tEnd = System.currentTimeMillis();
+        long tDelta = tEnd - tStart;
+        elapsedSeconds = tDelta / 1000.0;
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+
+        long stepsTaken=  pref.getLong("steps", 0);
+        double distTravelled = stepsTaken*1.75;
+        double averageSpeed = distTravelled*1.0/elapsedSeconds;
+        Log.d("stepstaken", String.valueOf(stepsTaken));
+        Log.d("distTravelled", String.valueOf(distTravelled));
+        Log.d("averageSpeed", String.valueOf(averageSpeed));
+        game.stats(distTravelled, stepsTaken, averageSpeed);
+
+
+
+
+
+
 	}
 
     @Override
