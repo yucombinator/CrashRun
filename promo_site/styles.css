@@ -58,6 +58,7 @@ body{
  margin: 0;
  color: #FF5722; 
     font-weight: 400;
+    text-align: justify;
 }
 
 @media all and (max-width:800px){

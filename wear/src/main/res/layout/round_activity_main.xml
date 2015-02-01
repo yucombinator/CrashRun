@@ -3,7 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".MainActivity" tools:deviceIds="wear_round">
 
-    <TextView android:id="@+id/text" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" android:text="@string/hello_round" />
+    <TextView android:id="@+id/timer" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="TIMER"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/arrow"
+        android:src="@drawable/arrow"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="DISTANCE"
+        android:id="@+id/distance"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp" />
 </RelativeLayout>

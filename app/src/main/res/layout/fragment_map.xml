@@ -13,6 +13,8 @@
 
 
 </LinearLayout>
+    <include layout="@layout/round_up"
+        />
 <LinearLayout
     android:id="@+id/waiting"
     android:layout_width="match_parent"
@@ -50,6 +52,5 @@
 
 </LinearLayout>
 </LinearLayout>
-    <include layout="@layout/round_up"
-        />
+
     </RelativeLayout>

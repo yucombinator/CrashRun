@@ -9,6 +9,7 @@ import android.util.Log;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.wearable.DataMap;
 import com.mariux.teleport.lib.TeleportClient;
 
 import java.util.UUID;
@@ -100,17 +101,19 @@ public class WatchSync {
             PebbleKit.sendDataToPebble(c, PEBBLE_APP_UUID, data);
         }
         if(wear_connected){
+            DataMap map = new DataMap();
             if(loc_user != null){
-                mTeleportClient.syncString("myloc_lat", String.valueOf(loc_user.longitude));
-                mTeleportClient.syncString("myloc_lon", String.valueOf(loc_user.latitude));
+                map.putString("myloc_lat", String.valueOf(loc_user.longitude));
+                map.putString("myloc_lon", String.valueOf(loc_user.latitude));
             }
             if(loc_orb != null) {
-                mTeleportClient.syncString("orb_lat", String.valueOf(loc_orb.longitude));
-                mTeleportClient.syncString("orb_lon", String.valueOf(loc_orb.latitude));
+                map.putString("orb_lat", String.valueOf(loc_orb.longitude));
+                map.putString("orb_lon", String.valueOf(loc_orb.latitude));
             }
             if(time != null)
-                mTeleportClient.syncString("timer", time);
-            mTeleportClient.syncByte("vib", vib);
+                map.putString("timer", time);
+            map.putByte("vib", vib);
+            mTeleportClient.syncAll(map);
         }
 
     }
