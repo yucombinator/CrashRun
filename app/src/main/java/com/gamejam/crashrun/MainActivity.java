@@ -38,6 +38,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 
 @EActivity
 public class MainActivity
@@ -56,6 +57,8 @@ public class MainActivity
     Game game;
     long tStart;
     double elapsedSeconds;
+
+
 
     public static String TAG = "BathroomFinder";
 	
@@ -151,8 +154,10 @@ public class MainActivity
     }
 
     public void gameToggle(final View v){
+
         final View myView = findViewById(R.id.card_view);
         final View shade = findViewById(R.id.shade);
+
         if(paused)
         {
             game = new Game();
@@ -244,7 +249,7 @@ public class MainActivity
 
 
             //alertDialog.setIcon(R.drawable.icon);
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
                     //Okay, then
@@ -268,7 +273,7 @@ public class MainActivity
                         shade.setVisibility(View.VISIBLE);
                         anim.start();
                         shadeanim.start();
-                    }else{
+                    } else {
                         myView.setVisibility(View.VISIBLE);
                         shade.setVisibility(View.VISIBLE);
                     }
@@ -278,8 +283,7 @@ public class MainActivity
                     paused = true;
                     roundText = (TextView) LL.findViewById(R.id.textRounds);
                     roundText.setText("Game Stopped");
-                    ((FloatingActionButton)v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
-
+                    ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
 
 
                     stopService(new Intent(getApplicationContext(), StepCounter.class));
@@ -291,9 +295,9 @@ public class MainActivity
 
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
-                    long stepsTaken=  pref.getLong("steps", 0);
-                    double distTravelled = stepsTaken*1.75;
-                    double averageSpeed = distTravelled*1.0/elapsedSeconds;
+                    long stepsTaken = pref.getLong("steps", 0);
+                    double distTravelled = stepsTaken * 1.75;
+                    double averageSpeed = distTravelled * 1.0 / elapsedSeconds;
 
                     game.stats(distTravelled, stepsTaken, averageSpeed);
 
@@ -439,7 +443,7 @@ public class MainActivity
                     watchSync.sendUpdate(null,null,null,"" + m + ":" + sec,(byte)0);
 				}
 
-				public void onFinish() 
+				public void onFinish()
 				{
 
 
@@ -483,6 +487,52 @@ public class MainActivity
 
 
                     a = game.getTime();
+
+                    final View myView = findViewById(R.id.card_view);
+                    final View shade = findViewById(R.id.shade);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //only with api>=21
+                        // previously invisible view
+                        // get the center for the clipping circle
+                        int cx = (myView.getLeft() + myView.getRight()) / 2;
+                        int cy = (myView.getTop() + myView.getBottom()) / 2;
+                        int shadex = (shade.getLeft() + shade.getRight()) / 2;
+                        int shadey = (shade.getTop() + shade.getBottom()) / 2;
+                        // get the final radius for the clipping circle
+                        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+                        int shadefinalRadius = Math.max(shade.getWidth(), shade.getHeight());
+                        // create the animator for this view (the start radius is zero)
+                        Animator anim =
+                                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+                        Animator shadeanim =
+                                ViewAnimationUtils.createCircularReveal(shade, shadex, shadey, 0, shadefinalRadius);
+                        // make the view visible and start the animation
+                        myView.setVisibility(View.VISIBLE);
+                        shade.setVisibility(View.VISIBLE);
+                        anim.start();
+                        shadeanim.start();
+                    }else{
+                        myView.setVisibility(View.VISIBLE);
+                        shade.setVisibility(View.VISIBLE);
+                    }
+
+
+
+
+
+                    cdt.cancel();
+                    mMapFragment.stopGame();
+                    paused = true;
+                    roundText = (TextView) LL.findViewById(R.id.textRounds);
+                    roundText.setText("Game Stopped");
+
+
+
+                    ((FloatingActionButton)findViewById(R.id.fab)).setImageDrawable(getResources().getDrawable(R.drawable.ic_action_av_play_arrow));
+
+
+
+
 
 
 

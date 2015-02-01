@@ -712,22 +712,29 @@ TODO Fix this
     private void showRoundScreen() {
         ((TextView)roundUp.findViewById(R.id.roundup_text)).setText("Round " + game.levelAdd(0));
 
+        if (game.levelAdd(0) != 1) {
 
-        double[] stats = game.stats(0,  0, 0);
-        double dist = stats[0];
-        double steps = stats[1];
-        double speed = stats[2];
+            double[] stats = game.stats(0,  0, 0);
+            double dist = stats[0];
+            double steps = stats[1];
+            double speed = stats[2];
 
 
-        ((TextView)roundUp.findViewById(R.id.stats)).setText("Distance:   " + dist + " meters\n"
-        + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)(speed)+ " m/s\n" +"Score:   " +String.valueOf(game.scoreAdd(0)));
+            ((TextView)roundUp.findViewById(R.id.stats)).setText("Distance:   " + dist + " meters\n"
+                    + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)(speed)+ " m/s\n" +"Score:   " +String.valueOf(game.scoreAdd(0)));
+
+
+
+        }
+
+
         roundUp.setVisibility(View.VISIBLE);
         //hide again
         Handler h = new Handler();
         h.postDelayed(new Runnable(){
             public void run() {
                 roundUp.setVisibility(View.GONE);
-            }}, 5000);
+            }}, 4000);
     }
 
     public void stopGame() {

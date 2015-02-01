@@ -85,6 +85,7 @@ public class Game {
 
 
         return (long)(1000*(300+n+totalRadius*totalOrbs/4));
+        //
 
     }
 
