@@ -729,14 +729,14 @@ TODO Fix this
 
         if(game.level > 1)
         ((TextView)roundUp.findViewById(R.id.stats)).setText("Distance:   " + dist + " meters\n"
-        + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)(speed)+ " m/s\n");
+        + "Steps:   " + steps + " steps\n" + "Speed:   " + (float)(speed)+ " m/s\n" +"Score:   " +String.valueOf(game.scoreAdd(0)));
         roundUp.setVisibility(View.VISIBLE);
         //hide again
         Handler h = new Handler();
         h.postDelayed(new Runnable(){
             public void run() {
                 roundUp.setVisibility(View.GONE);
-            }}, 2000);
+            }}, 5000);
     }
 
     public void stopGame() {
