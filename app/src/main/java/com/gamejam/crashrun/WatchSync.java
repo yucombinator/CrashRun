@@ -85,10 +85,11 @@ public class WatchSync {
                // Log.d("Test",results[0] + " " + results[1]+ " " + results[2]);
                // Log.d("Test", (int)results[0] + " " + (int)results[1]+ " " + (int) results[2]);
                 data.addString(0, String.format("%.2f", results[0]) + " meters"); //DISTANCE
-                if(results.length>=3)
-                    data.addInt32(1, (int)results[2]); //BEARING
-                else
-                    data.addInt32(1, (int)results[1]); //BEARING
+                float angle = results[1];
+                if(results[2]!=0){
+                    angle= results[2];
+                }
+                data.addInt32(1, (int)angle); //BEARING
             }
             if(address != null)
             // Add a key of 4, and a string for the street.

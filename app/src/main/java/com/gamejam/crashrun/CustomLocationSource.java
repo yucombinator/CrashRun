@@ -30,12 +30,12 @@ public class CustomLocationSource implements LocationSource, LocationListener {
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         // Specify Location Provider criteria
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(true);
+        criteria.setAccuracy(Criteria.ACCURACY_HIGH);
+        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+        //criteria.setAltitudeRequired(true);
         criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);
-        criteria.setCostAllowed(true);
+        //criteria.setSpeedRequired(true);
+        //criteria.setCostAllowed(true);
     }
     
     private onUpdateListener mCallback;

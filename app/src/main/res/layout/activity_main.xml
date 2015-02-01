@@ -27,7 +27,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         card_view:cardCornerRadius="4dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -63,8 +63,10 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:paddingLeft="5dp"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView3"
+                android:layout_alignParentRight="true"
+
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -109,13 +111,6 @@
 
 
             </LinearLayout>
-
-            <SeekBar
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/seekBar"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
         </android.support.v7.widget.CardView>

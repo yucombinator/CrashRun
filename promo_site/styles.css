@@ -5,6 +5,30 @@ body{
     margin:0;
     overflow-y:hidden;
 }
+/* unvisited link */
+a:link {
+    color: #FF5722;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: #FF5722;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+    color: rgb(221, 75, 29);
+    text-decoration: none;
+}
+
+/* selected link */
+a:active {
+    color: #FF5722;
+    text-decoration: none;
+}
+
 .phone{
     width:auto;
     height:550px;

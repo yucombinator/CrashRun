@@ -32,7 +32,6 @@
             android:id="@+id/stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Some stats here"
             android:fontFamily="sans-serif-light"
             android:textColor="#FFFFFF"
             android:textAppearance="?android:attr/textAppearanceMedium" />

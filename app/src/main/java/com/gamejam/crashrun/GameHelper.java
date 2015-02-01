@@ -42,6 +42,7 @@ import com.google.android.gms.games.multiplayer.Invitation;
 import com.google.android.gms.games.multiplayer.Multiplayer;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
 import com.google.android.gms.games.request.GameRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.Plus.PlusOptions;
 
@@ -298,6 +299,7 @@ public class GameHelper implements GoogleApiClient.ConnectionCallbacks,
           builder.addScope(Drive.SCOPE_APPFOLDER);
           builder.addApi(Drive.API);
         }
+        builder.addApi(LocationServices.API);
 
         mGoogleApiClientBuilder = builder;
         return builder;

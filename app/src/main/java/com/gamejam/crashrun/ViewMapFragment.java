@@ -151,6 +151,7 @@ public class ViewMapFragment extends Fragment implements GoogleMap.OnCameraChang
         roundUp.setVisibility(View.GONE);
         watchSync = WatchSync.newInstance(getActivity());
         watchSync.onStart();
+
     	return RelativeLayout; 
     }
     @Override
@@ -576,12 +577,12 @@ TODO Fix this
 	        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
 	        // Specify Location Provider criteria
-	        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-	        criteria.setPowerRequirement(Criteria.POWER_LOW);
-	        criteria.setAltitudeRequired(true);
+	        criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
+	        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+	        //criteria.setAltitudeRequired(true);
 	        criteria.setBearingRequired(true);
-	        criteria.setSpeedRequired(true);
-	        criteria.setCostAllowed(true);
+	        //criteria.setSpeedRequired(true);
+	        //criteria.setCostAllowed(true);
 	    }
 
 	    void getBestAvailableProvider() {
@@ -644,7 +645,8 @@ TODO Fix this
 	      //  .bearing(90)                // Sets the orientation of the camera to east
 	        .tilt(45)                   // Sets the tilt of the camera to 30 degrees
 	        .build();                   // Creates a CameraPosition from the builder
-	        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+	        //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 			//mCallback.onCameraLocationChange(location);
 			//last_location = location;
 				
